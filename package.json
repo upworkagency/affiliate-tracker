@@ -1,0 +1,15 @@
+{
+  "name": "affiliate-tracker",
+  "version": "1.0.0",
+  "description": "This project sets-up an API that parses the query-parameters when invoked via a user clicking on a link",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Raza",
+  "license": "ISC",
+  "devDependencies": {
+    "node": "^20.6.0",
+    "typescript": "^5.2.2"
+  }
+}
