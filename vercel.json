@@ -7,7 +7,7 @@
     ],
     "routes": [
       {
-        "src": "/booking",
+        "src": "/",
         "dest": "/api/edge.ts"
       }
     ],
