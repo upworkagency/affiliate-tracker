@@ -1,18 +1,21 @@
 {
-    "builds": [
-      {
-        "src": "/api/edge.ts",
-        "use": "@vercel/node"
+    "build": {
+      "env": {
+        "DATABASE_URL": "@database_url",
+        "BEARER_TOKEN": "@bearer_token"
+      },
+      "command": "npm run build"
+    },
+    "functions": {
+      "api/src/edge.js": {
+        "runtime": "@vercel/node@3.0.5"
       }
-    ],
+    },
     "routes": [
-    {
+      {
         "src": "/booking/.*",
-        "dest": "/api/edge.ts"
-    }
-    ],
-    "env": {
-      "DATABASE_URL": "@database_url",
-      "BEARER_TOKEN": "@bearer_token"
-    }
-}
+        "dest": "api/src/edge.js"
+      }
+    ]
+  }
+  

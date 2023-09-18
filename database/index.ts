@@ -1,4 +1,4 @@
-import {type DB } from 'kysely-codegen';// this is the Database interface we defined earlier
+import { type DB, type  Redirects } from 'kysely-codegen';// this is the Database interface we defined earlier
 import { Pool } from 'pg'
 import { Kysely, PostgresDialect } from 'kysely'
 
@@ -20,14 +20,12 @@ const dialect = new PostgresDialect({
 export const db = new Kysely<DB>({
   dialect,
 })
-interface Redirect {
-    platform: string;
-    accountID: string;
-    timestamp: Date;
-}
-export async function createRedirectEntry(redirect: DB.Redirects) {
+
+export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp'>;
+
+export async function createRedirectEntry(redirect: InsertableRedirect) {
     return await db.insertInto('redirects')
         .values(redirect)
         .returningAll()
-        .executeTakeFirstOrThrow()
+        .executeTakeFirstOrThrow();
 }
