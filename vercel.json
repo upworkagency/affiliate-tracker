@@ -1,0 +1,18 @@
+{
+    "builds": [
+      {
+        "src": "/api/edge.ts",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/booking",
+        "dest": "/api/edge.ts"
+      }
+    ],
+    "env": {
+      "DATABASE_URL": "@database_url",
+      "BEARER_TOKEN": "@bearer_token"
+    }
+}

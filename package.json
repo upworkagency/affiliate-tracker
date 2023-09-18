@@ -4,12 +4,20 @@
   "description": "This project sets-up an API that parses the query-parameters when invoked via a user clicking on a link",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "update-kysely-types": "env-cmd -f .env.local kysely-codegen --exclude-pattern spatial_ref_sys"
   },
   "author": "Lucas Raza",
   "license": "ISC",
   "devDependencies": {
-    "node": "^20.6.0",
-    "typescript": "^5.2.2"
+    "kysely": "^0.26.3",
+    "typescript": "^5.2.2",
+    "vercel": "^32.2.4"
+  },
+  "dependencies": {
+    "@types/pg": "^8.6.6",
+    "@vercel/postgres-kysely": "^0.4.1",
+    "env-cmd": "^10.1.0",
+    "kysely-codegen": "^0.10.1",
+    "pg": "^8.11.3"
   }
 }
