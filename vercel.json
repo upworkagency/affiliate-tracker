@@ -6,10 +6,10 @@
       }
     ],
     "routes": [
-      {
-        "src": "/",
+    {
+        "src": "/booking/.*",
         "dest": "/api/edge.ts"
-      }
+    }
     ],
     "env": {
       "DATABASE_URL": "@database_url",
