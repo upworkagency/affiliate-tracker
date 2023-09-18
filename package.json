@@ -10,15 +10,16 @@
   "author": "Lucas Raza",
   "license": "ISC",
   "dependencies": {
-    "env-cmd": "^10.1.0",
-    "pg": "^8.11.3",
     "@vercel/node": "^3.0.5",
+    "@vercel/postgres-kysely": "^0.4.1",
+    "axios": "^1.5.0",
+    "env-cmd": "^10.1.0",
     "kysely": "^0.26.3",
-    "@vercel/postgres-kysely": "^0.4.1"
+    "pg": "^8.11.3"
   },
   "devDependencies": {
-    "typescript": "^5.2.2",
     "@types/pg": "^8.6.6",
-    "kysely-codegen": "^0.10.1"
+    "kysely-codegen": "^0.10.1",
+    "typescript": "^5.2.2"
   }
 }
