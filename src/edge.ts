@@ -26,7 +26,7 @@ async function createCalendlyLink(eventTypeUrl: string, bearerToken: string): Pr
         },
       }
     );
-
+//
     return response.data.resource.booking_url;
   } catch (error) {
     console.error('[Error] Failed to create Calendly link:', error);
