@@ -9,6 +9,8 @@
 # Production
 build
 dist
+# Build folder
+/api
 
 # Misc
 .DS_Store
@@ -22,7 +24,7 @@ yarn-error.log*
 # Local ENV files
 .env
 .env.local
-
+.env.build
 # Vercel
 .vercel
 

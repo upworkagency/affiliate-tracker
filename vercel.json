@@ -3,8 +3,7 @@
       "env": {
         "DATABASE_URL": "@database_url",
         "BEARER_TOKEN": "@bearer_token"
-      },
-      "command": "npm run build"
+      }
     },
     "functions": {
       "api/src/edge.js": {
