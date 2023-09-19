@@ -6,9 +6,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log('[Info:Webhook] Post request received:\n', req.body);
         const eventData = req.body;
         if (eventData.event === 'invitee.created') {
-            const accountID = eventData.payload.invitee.email; // Just an assumption. Modify as per actual data structure
+            const email = eventData.payload.email; // Just an assumption. Modify as per actual data structure
             const utmSource = eventData.payload.tracking.utm_source as number
-            const entry = await updateRedirectEntry(utmSource);
+            const entry = await updateRedirectEntry(utmSource, email);
             console.log('[Info:Webhook] Updated Entry:\n', entry);
         }
 

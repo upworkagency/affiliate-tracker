@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       platform: platform,
     };
   
-    const id = await createRedirectEntry(redirectData);
+    const redirect = await createRedirectEntry(redirectData);
     console.log('[Info:Redirect] Redirect database entry created successfully');
 
     const token = process.env.BEARER_TOKEN;
@@ -35,8 +35,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log('[Info:Redirect] Generated Calendly URL:', calendlyUrl);
 
     const calendlyUrlWithUtm = calendlyUrl.includes('?') 
-    ? `${calendlyUrl}&utm_source=${id.toString()}`
-    : `${calendlyUrl}?utm_source=${id.toString()}`;
+    ? `${calendlyUrl}&utm_source=${redirect.id.toString()}`
+    : `${calendlyUrl}?utm_source=${redirect.id.toString()}`;
 
     console.log('[Info:Redirect] Add tracking id to link:', calendlyUrlWithUtm);
   
