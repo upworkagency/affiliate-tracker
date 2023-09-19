@@ -30,9 +30,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(500).json({ error: 'Internal server error' });
     }
   
-    // Create a single-use Calendly link
-    const calendlyUrl = await getSchedulingUrl(eventID, token);
-    console.log('[Info] Generated Calendly URL:', calendlyUrl);
+    try {
+        const calendlyUrl = await getSchedulingUrl(eventID, token);
+        console.log('[Info] Generated Calendly URL:', calendlyUrl);
+    } catch (error) {
+        console.error('Error fetching Calendly URL:', error.message);
+        return res.status(500).json({ error: 'Failed to generate Calendly URL' });
+    }
   
     // Redirect user to the generated Calendly link
     res.writeHead(302, { Location: calendlyUrl });
@@ -43,3 +47,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 export const config = {
   runtime: 'edge',
 };
+

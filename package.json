@@ -5,7 +5,7 @@
   "main": "src/edge.ts",
   "scripts": {
     "build": "tsc",
-    "prebuild": "env-cmd -f .env.build kysely-codegen --exclude-pattern spatial_ref_sys"
+    "prebuild": "env-cmd -f .env kysely-codegen --exclude-pattern spatial_ref_sys"
   },
   "author": "Lucas Raza",
   "license": "ISC",
