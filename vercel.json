@@ -6,23 +6,22 @@
       }
     },
     "functions": {
-      "api/edge.js": {
+      "api/calendlyWebhook.js": {
         "runtime": "@vercel/node@3.0.5"
       },
-      "api/calendlyWebhook.js": {
+      "api/edge.js": {
         "runtime": "@vercel/node@3.0.5"
       }
     },
     "routes": [
-        {
-          "src": "/booking",
-          "dest": "/api/edge.js"
-        },
-        {
-          "src": "/webhook", 
-          "dest": "/api/calendlyWebhook.js"
-        }
-     ]
-     
+      {
+        "src": "/booking",
+        "dest": "/api/edge.js"
+      },
+      {
+        "src": "/webhook", 
+        "dest": "/api/calendlyWebhook.js"
+      }
+    ]
   }
-   
+  
