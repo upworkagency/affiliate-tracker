@@ -27,11 +27,18 @@ export const db = new Kysely<DB>({
     dialect,
 })
 // http://localhost:3000/booking?platform=tiktok&accountID=test&eventID=3b0bfa02-8d78-4865-ad91-405744270db4
-export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp'>;
+export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp' | 'booked_timestamp'>;
 
 export async function createRedirectEntry(redirect: InsertableRedirect) {
     return await db.insertInto('redirects')
         .values(redirect)
-        .returningAll()
+        .returning('id')
         .executeTakeFirstOrThrow();
+}
+
+export async function updateBookedTimestamp(id: number) {
+    return await db.updateTable('redirects')
+        .set({ booked_timestamp: new Date() })
+        .where('redirects.id', '=', id)
+        .execute();
 }

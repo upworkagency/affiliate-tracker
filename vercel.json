@@ -6,14 +6,18 @@
       }
     },
     "functions": {
-      "api/src/edge.js": {
+      "api/edge.js": {
         "runtime": "@vercel/node@3.0.5"
       }
     },
     "routes": [
       {
         "src": "/booking",
-        "dest": "api/src/edge.js"
+        "dest": "api/edge.js"
+      },
+      {
+        "src": "/webhook", 
+        "dest": "api/calendlyWebhook.js"
       }
     ]
   }

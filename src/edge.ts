@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createRedirectEntry, type InsertableRedirect } from '../database';
+import { createRedirectEntry, type InsertableRedirect } from './database';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { getSchedulingUrl } from './calendly';
 
@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       platform: platform,
     };
   
-    await createRedirectEntry(redirectData);
+    const id = await createRedirectEntry(redirectData);
     console.log('[Info] Redirect database entry created successfully');
 
     const token = process.env.BEARER_TOKEN;
@@ -30,16 +30,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(500).json({ error: 'Internal server error' });
     }
   
-    try {
-        const calendlyUrl = await getSchedulingUrl(eventID, token);
-        console.log('[Info] Generated Calendly URL:', calendlyUrl);
-    } catch (error) {
-        console.error('Error fetching Calendly URL:', error.message);
-        return res.status(500).json({ error: 'Failed to generate Calendly URL' });
-    }
+    // Create a single-use Calendly link
+    const calendlyUrl = await getSchedulingUrl(eventID, token);
+    console.log('[Info] Generated Calendly URL:', calendlyUrl);
+
+    const calendlyUrlWithUtm = calendlyUrl.includes('?') 
+    ? `${calendlyUrl}&utm_source=${id.toString()}`
+    : `${calendlyUrl}?utm_source=${id.toString()}`;
+
+    console.log('[Info] Add tracking id to link:', calendlyUrlWithUtm);
   
     // Redirect user to the generated Calendly link
-    res.writeHead(302, { Location: calendlyUrl });
+    res.writeHead(302, { Location: calendlyUrlWithUtm });
     res.end();
 }
   
