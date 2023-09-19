@@ -18,7 +18,7 @@ function handler(req, res) {
         const platform = req.query.platform;
         const accountID = req.query.accountID;
         const eventID = req.query.eventID; // Retrieve the eventID from the query
-        console.log(`[Info] Received request for platform: ${platform}, accountID: ${accountID}, team_event: ${eventID}`);
+        console.log(`[Info] Received request for platform: ${platform}, accountID: ${accountID}, eventID: ${eventID}`);
         if (!platform || !accountID || !eventID) {
             return res.status(400).json({ error: 'Platform, accountID, and eventID are required.' });
         }
@@ -28,7 +28,7 @@ function handler(req, res) {
             platform: platform,
         };
         yield (0, database_1.createRedirectEntry)(redirectData);
-        console.log('[Info] Redirect entry created successfully');
+        console.log('[Info] Redirect database entry created successfully');
         const token = process.env.BEARER_TOKEN;
         if (!token) {
             console.error('Bearer token not provided!');

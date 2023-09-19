@@ -12,7 +12,7 @@
     },
     "routes": [
       {
-        "src": "/booking/.*",
+        "src": "/booking",
         "dest": "api/src/edge.js"
       }
     ]

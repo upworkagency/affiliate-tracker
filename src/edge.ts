@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
   
     await createRedirectEntry(redirectData);
-    console.log('[Info] Redirect entry created successfully');
+    console.log('[Info] Redirect database entry created successfully');
 
     const token = process.env.BEARER_TOKEN;
     if (!token) {

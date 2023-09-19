@@ -9,6 +9,9 @@ const poolConfig = {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     max: Number(process.env.POSTGRES_MAX_POOL),
+    ssl: {
+         rejectUnauthorized: false   
+    }
 };
   
 const dialect = new PostgresDialect({
@@ -23,7 +26,7 @@ const dialect = new PostgresDialect({
 export const db = new Kysely<DB>({
     dialect,
 })
-
+// http://localhost:3000/booking?platform=tiktok&accountID=test&eventID=3b0bfa02-8d78-4865-ad91-405744270db4
 export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp'>;
 
 export async function createRedirectEntry(redirect: InsertableRedirect) {

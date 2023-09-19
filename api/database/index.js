@@ -19,6 +19,9 @@ const poolConfig = {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     max: Number(process.env.POSTGRES_MAX_POOL),
+    ssl: {
+        rejectUnauthorized: false
+    }
 };
 const dialect = new kysely_1.PostgresDialect({
     pool: new pg_1.Pool(poolConfig)
