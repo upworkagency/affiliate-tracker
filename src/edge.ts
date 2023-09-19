@@ -9,7 +9,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const accountID = req.query.accountID as string;
     const eventID = req.query.eventID as string;  // Retrieve the eventID from the query
   
-    console.log(`[Info] Received request for platform: ${platform}, accountID: ${accountID}, team_event: ${eventID}`);
+    console.log(`[Info] Received request for platform: ${platform}, accountID: ${accountID}, eventID: ${eventID}`);
   
     if (!platform || !accountID || !eventID) {
       return res.status(400).json({ error: 'Platform, accountID, and eventID are required.' });

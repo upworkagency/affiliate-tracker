@@ -12,14 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRedirectEntry = exports.db = void 0;
 const pg_1 = require("pg");
 const kysely_1 = require("kysely");
+const poolConfig = {
+    host: process.env.POSTGRES_HOST,
+    port: Number(process.env.POSTGRES_PORT),
+    database: process.env.POSTGRES_DATABASE,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    max: Number(process.env.POSTGRES_MAX_POOL),
+};
 const dialect = new kysely_1.PostgresDialect({
-    pool: new pg_1.Pool({
-        database: 'test',
-        host: 'localhost',
-        user: 'admin',
-        port: 5434,
-        max: 10,
-    })
+    pool: new pg_1.Pool(poolConfig)
 });
 // Database interface is passed to Kysely's constructor, and from now on, Kysely 
 // knows your database structure.
