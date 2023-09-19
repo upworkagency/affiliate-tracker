@@ -14,14 +14,15 @@
       }
     },
     "routes": [
-      {
-        "src": "/booking",
-        "dest": "api/edge.js"
-      },
-      {
-        "src": "/webhook", 
-        "dest": "api/calendlyWebhook.js"
-      }
-    ]
+        {
+          "src": "/booking",
+          "dest": "/api/edge.js"
+        },
+        {
+          "src": "/webhook", 
+          "dest": "/api/calendlyWebhook.js"
+        }
+     ]
+     
   }
-  
+   
