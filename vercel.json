@@ -8,6 +8,9 @@
     "functions": {
       "api/edge.js": {
         "runtime": "@vercel/node@3.0.5"
+      },
+      "api/calendlyWebhook.js": {
+        "runtime": "@vercel/node@3.0.5"
       }
     },
     "routes": [
