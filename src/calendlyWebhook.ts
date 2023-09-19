@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { createRedirectEntry, type InsertableRedirect } from '../src/database'; // Import from your actual database module
+import { VercelRequest, VercelResponse } from '@vercel/node';
+import { createRedirectEntry, type InsertableRedirect } from './database'; // Import from your actual database module
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'POST') {
         const eventData = req.body;
         if (eventData.event === 'invitee.created') {
