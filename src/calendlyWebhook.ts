@@ -1,9 +1,9 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { updateRedirectEntry, type InsertableRedirect } from './database'; // Import from your actual database module
+import { updateRedirectEntry } from './database'; // Import from your actual database module
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'POST') {
-        console.log('[Info:Webhook] Post request received');
+        console.log('[Info:Webhook] Post request received:\n', req.body);
         const eventData = req.body;
         if (eventData.event === 'invitee.created') {
             const accountID = eventData.payload.invitee.email; // Just an assumption. Modify as per actual data structure

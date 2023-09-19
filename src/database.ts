@@ -36,9 +36,9 @@ export async function createRedirectEntry(redirect: InsertableRedirect) {
         .executeTakeFirstOrThrow();
 }
 
-export async function updateBookedTimestamp(id: number) {
+export async function updateRedirectEntry(id: number) {
     return await db.updateTable('redirects')
         .set({ booked_timestamp: new Date() })
         .where('redirects.id', '=', id)
-        .execute();
+        .executeTakeFirstOrThrow();
 }
