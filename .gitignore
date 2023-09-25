@@ -34,5 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
+.next
 
 package-lock.json
+
+notes
+user.json
+userr.json
