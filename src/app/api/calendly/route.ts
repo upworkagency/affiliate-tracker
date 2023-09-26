@@ -1,35 +1,27 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
-import { getSchedulingUrl } from '../../../lib/calendly';
-import { URLSearchParams } from 'url';
+import { createRedirectEntry, InsertableRedirect } from '../../../_lib/database';
+import { getSchedulingUrl } from '../../../_lib/calendly';
+import { redirect } from 'next/navigation';  
 
-export const runtime = 'edge'; // 'nodejs' is the default
 
-export async function GET(req: NextRequest) {
-  
-  let params: URLSearchParams;
-  try {
-    params = new URLSearchParams(req.nextUrl.search);
-  } catch (error) {
-    console.error('[Error:Params]', error);
-    return NextResponse.json({ error: 'Invalid query parameters' }, { status: 400 });
-  }
+export async function GET(req: NextRequest, res: NextResponse) {
+  const searchParams = req.nextUrl.searchParams;
 
-  const platform = params.get('platform');
-  const accountID = params.get('accountID');
-  const eventID = params.get('eventID');
+  const platform = searchParams.get('platform');
+  const accountID = searchParams.get('accountID');
+  const eventID = searchParams.get('eventID');
 
   if (!platform || !accountID || !eventID) {
     return NextResponse.json({ error: 'Platform, accountID, and eventID are required.' }, { status: 400 });
   }
 
-  let redirect;
+  let redirectEntry;  // Renamed to avoid conflict with imported redirect function
   try {
     const redirectData: InsertableRedirect = {
       account_id: accountID,
       platform: platform,
     };
-    redirect = await createRedirectEntry(redirectData);
+    redirectEntry = await createRedirectEntry(redirectData);
   } catch (error) {
     console.error('[Error:Database]', error);
     return NextResponse.json({ error: 'Database error' }, { status: 500 });
@@ -50,8 +42,8 @@ export async function GET(req: NextRequest) {
   }
 
   const calendlyUrlWithUtm = calendlyUrl.includes('?') 
-    ? `${calendlyUrl}&utm_source=${redirect.id.toString()}`
-    : `${calendlyUrl}?utm_source=${redirect.id.toString()}`;
+    ? `${calendlyUrl}&utm_source=${redirectEntry.id.toString()}`
+    : `${calendlyUrl}?utm_source=${redirectEntry.id.toString()}`;
 
-  return NextResponse.redirect(calendlyUrlWithUtm, 302);
+  return redirect(calendlyUrlWithUtm);  // Using the imported redirect function
 }

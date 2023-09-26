@@ -2,7 +2,6 @@
   "name": "affiliate-tracker",
   "version": "1.0.0",
   "description": "This project sets-up an API that parses the query-parameters when invoked via a user clicking on a link",
-  "main": "src/edge.ts",
   "scripts": {
     "prebuild": "env-cmd -f .env kysely-codegen --exclude-pattern spatial_ref_sys",
     "dev": "next dev",
@@ -14,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "@clerk/nextjs": "^4.24.1",
-    "@vercel/node": "^3.0.5",
     "@vercel/postgres-kysely": "^0.4.1",
     "axios": "^1.5.0",
     "env-cmd": "^10.1.0",
@@ -25,12 +23,16 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.5.3",
     "@types/pg": "^8.6.6",
     "@types/react": "^18.2.22",
+    "@vercel/node": "^3.0.6",
     "autoprefixer": "^10.4.16",
+    "cross-env": "^7.0.3",
     "kysely-codegen": "^0.10.1",
     "postcss": "^8.4.30",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "webpack-bundle-analyzer": "^4.9.1"
   }
 }

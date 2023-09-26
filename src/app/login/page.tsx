@@ -94,7 +94,7 @@ const SignInForm = () => {
     );
   };
 
-export const Page:NextPage = () => {
+export default function Page() {
   //   const { session } = useSession();
   // const router = useRouter();
 
@@ -134,5 +134,3 @@ export const Page:NextPage = () => {
     </div>
   );
 }
-
-export default Page
