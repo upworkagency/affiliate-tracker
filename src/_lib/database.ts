@@ -1,10 +1,11 @@
 import { createKysely } from "@vercel/postgres-kysely";
+// import { Kysely } from 'kysely'
 import { type DB, type Redirects } from "kysely-codegen";  // We still use the original Kysely for types
 
 let dbInstance: any = null;  // Adjusting this to any, but if @vercel/postgres-kysely provides a specific type, use that instead
 
 function createDatabaseInstance() {
-    return createKysely<DB>();
+    return createKysely<DB>( );
 }
 
 export function getDbInstance() {
@@ -32,3 +33,12 @@ export async function updateRedirectEntry(id: number, email: string) {
         .where('redirects.id', '=', id)
         .executeTakeFirstOrThrow();
 }
+
+export async function getRedirectsByEmail(email: string): Promise<Redirects[]> {
+    const db = getDbInstance();
+    return await db.selectFrom('redirects')
+      .selectAll()
+      .where('email', '=', email)
+      .execute();
+  }
+  
