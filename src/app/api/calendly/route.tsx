@@ -1,27 +1,31 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
 import { getSchedulingUrl } from '../../../lib/calendly';
-import { redirect } from 'next/navigation';  
 
+// export const runtime = 'edge'; // 'nodejs' is the default
 
-export async function GET(req: NextRequest, res: NextResponse) {
-  const searchParams = req.nextUrl.searchParams;
+export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams
 
-  const platform = searchParams.get('platform');
-  const accountID = searchParams.get('accountID');
-  const eventID = searchParams.get('eventID');
+  const platform = params.get('platform');
+  const accountID = params.get('accountID');
+  const eventID = params.get('eventID');
 
   if (!platform || !accountID || !eventID) {
     return NextResponse.json({ error: 'Platform, accountID, and eventID are required.' }, { status: 400 });
   }
 
-  let redirectEntry;  // Renamed to avoid conflict with imported redirect function
+  if (!platform || !accountID || !eventID) {
+    return NextResponse.json({ error: 'Platform, accountID, and eventID are required.' }, { status: 400 });
+  }
+
+  let redirect;
   try {
     const redirectData: InsertableRedirect = {
       account_id: accountID,
       platform: platform,
     };
-    redirectEntry = await createRedirectEntry(redirectData);
+    redirect = await createRedirectEntry(redirectData);
   } catch (error) {
     console.error('[Error:Database]', error);
     return NextResponse.json({ error: 'Database error' }, { status: 500 });
@@ -42,8 +46,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
   }
 
   const calendlyUrlWithUtm = calendlyUrl.includes('?') 
-    ? `${calendlyUrl}&utm_source=${redirectEntry.id.toString()}`
-    : `${calendlyUrl}?utm_source=${redirectEntry.id.toString()}`;
+    ? `${calendlyUrl}&utm_source=${redirect.id.toString()}`
+    : `${calendlyUrl}?utm_source=${redirect.id.toString()}`;
 
-  return redirect(calendlyUrlWithUtm);  // Using the imported redirect function
+  return NextResponse.redirect(calendlyUrlWithUtm, 302);
 }

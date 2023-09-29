@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateRedirectEntry } from '../../../../lib/database'; // Import from your actual database module
 
+// export const runtime = 'edge'; // 'nodejs' is the default
+
 export async function POST(req: NextRequest) {
     // Assuming that the POST data is JSON-encoded
     const body = JSON.parse(req.nextUrl.searchParams.get('body') || '{}');

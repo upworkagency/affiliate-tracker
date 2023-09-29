@@ -1,7 +1,7 @@
 import React from 'react';
-import { UserEvents } from '../../components/userEvents'
-import { EditableTable } from '../../components/table';
-import { PieChart } from '../../components/pie'
+import { UserEvents } from '../../components/UserEvents'
+import { EditableTable } from '../../components/Table';
+import { PieChart } from '../../components/Pie'
 import { BarChart } from '../../components/barChart';
 import { currentUser, SignIn } from "@clerk/nextjs";
 import { getRedirectsByEmail } from '../../lib/database'
