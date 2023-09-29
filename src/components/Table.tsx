@@ -12,6 +12,20 @@ type Extract<T> = T extends Generated<infer U> ? U : never;
 type IdType = Extract<Redirects["id"]>;
 type DateType = Extract<Redirects["redirect_timestamp"]>;
 // type IdType<T> = T extends ColumnType<infer S, any, any> ? S : never;
+const formatDate = (timestamp: string | undefined) => {
+    if (!timestamp) return '';
+    const formattedDate = new Date(timestamp).toLocaleString('en-us', { 
+      weekday: "long", 
+      year: "numeric", 
+      month: "short", 
+      day: "numeric", 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      timeZoneName: 'short'
+    });
+    return formattedDate.replace(/\u202F/g, ' ');
+  }
+  
 export const EditableTable: React.FC<TableProps> = ({ res }) => {
 
 
@@ -102,30 +116,10 @@ console.log("filtered: ", filteredRes)
            
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">{redirect.platform}</td>
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
-            {
-              new Date(redirect.redirect_timestamp?.toString()).toLocaleString('en-us', { 
-                  weekday: "long", 
-                  year: "numeric", 
-                  month: "short", 
-                  day: "numeric", 
-                  hour: '2-digit', 
-                  minute: '2-digit', 
-                  timeZoneName: 'short'
-              })
-            }
+          {formatDate(redirect.redirect_timestamp?.toString())}
           </td>
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
-                {redirect.booked_timestamp 
-                    ? new Date(redirect.booked_timestamp as any).toLocaleString('en-us', { 
-                        weekday: "long", 
-                        year: "numeric", 
-                        month: "short", 
-                        day: "numeric", 
-                        hour: '2-digit', 
-                        minute: '2-digit', 
-                        timeZoneName: 'short'
-                    })
-                    : 'N/A'}
+          {redirect.booked_timestamp ? formatDate(redirect.booked_timestamp as any) : 'N/A'}
             </td>
 
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">

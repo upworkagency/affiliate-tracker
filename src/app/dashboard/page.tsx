@@ -55,7 +55,7 @@ export default async function Page() {
                     <div className='text-gray-900'>Loading...</div>
                 </div>
             }>
-                <PieChart totalRedirects={100} redirectsLeadingToCalls={20}/>
+                <PieChart totalRedirects={res.length} redirectsLeadingToCalls={scheduled.length}/>
             </Suspense>
            
          </div>
