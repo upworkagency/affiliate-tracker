@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { createRedirectEntry, InsertableRedirect } from '../../../_lib/database';
-import { getSchedulingUrl } from '../../../_lib/calendly';
+import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
+import { getSchedulingUrl } from '../../../lib/calendly';
 import { redirect } from 'next/navigation';  
 
 

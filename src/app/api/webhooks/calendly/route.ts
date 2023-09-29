@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateRedirectEntry } from '../../../../_lib/database'; // Import from your actual database module
+import { updateRedirectEntry } from '../../../../lib/database'; // Import from your actual database module
 
 export async function POST(req: NextRequest) {
     // Assuming that the POST data is JSON-encoded
