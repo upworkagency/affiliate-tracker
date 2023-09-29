@@ -25,6 +25,8 @@ yarn-error.log*
 .env
 .env.local
 .env.build
+.env.development.local
+.env.development.build
 # Vercel
 .vercel
 
@@ -34,5 +36,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
+.next
 
 package-lock.json
+
+notes
+user.json
+userr.json

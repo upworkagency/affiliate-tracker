@@ -4,24 +4,5 @@
         "DATABASE_URL": "@database_url",
         "BEARER_TOKEN": "@bearer_token"
       }
-    },
-    "functions": {
-      "api/calendlyWebhook.js": {
-        "runtime": "@vercel/node@3.0.5"
-      },
-      "api/edge.js": {
-        "runtime": "@vercel/node@3.0.5"
-      }
-    },
-    "routes": [
-      {
-        "src": "/booking",
-        "dest": "/api/edge.js"
-      },
-      {
-        "src": "/webhook", 
-        "dest": "/api/calendlyWebhook.js"
-      }
-    ]
-  }
-  
+    }
+}
