@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         const startTime = payload.scheduled_event.start_time;
         const endTime = payload.scheduled_event.end_time;
         const status = payload.status
-        const type = payload.eventType
+        const type = payload.eventType || 'defaultType'; // Replace 'defaultType' with an appropriate value
 
         const calendlyEventId = await createCalendlyEvent({
             account_id: null, // or your account_id
