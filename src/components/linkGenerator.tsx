@@ -11,8 +11,8 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
     const linkInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleGenerateLink = () => {
-        const baseUrl = "https://bookingwebsite.com/book?";
-        const queryParams = `platform=${platform}&accountId=${accountId}&eventId=${eventId}`;
+        const baseUrl = "https://www.clubdenegocios.io/api/calendly?";
+        const queryParams = `platform=${platform}&accountId=${accountId}&eventId=3b0bfa02-8d78-4865-ad91-405744270db4`;
         setGeneratedLink(baseUrl + queryParams);
     };
 

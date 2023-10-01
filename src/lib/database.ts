@@ -41,4 +41,11 @@ export async function getRedirectsByEmail(email: string): Promise<Redirects[]> {
       .where('email', '=', email)
       .execute();
   }
+  export async function getRedirectsById(id: string): Promise<Redirects[]> {
+    const db = getDbInstance();
+    return await db.selectFrom('redirects')
+      .selectAll()
+      .where('account_id', '=', id)
+      .execute();
+  }
   

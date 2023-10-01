@@ -4,7 +4,7 @@ import { EditableTable } from '../../components/Table';
 import { PieChart } from '../../components/Pie'
 import { BarChart } from '../../components/barChart';
 import { currentUser, SignIn } from "@clerk/nextjs";
-import { getRedirectsByEmail } from '../../lib/database'
+import { getRedirectsById } from '../../lib/database'
 import { Suspense } from 'react';
 
 // type ReferralData = {
@@ -29,9 +29,7 @@ export default async function Page() {
   const email = user.emailAddresses[0].emailAddress
   const userId = user.id
 
-  const res = await getRedirectsByEmail(email)
-
-  console.log("SUCCESFUL RES", res)
+  const res = await getRedirectsById(userId)
 
   const scheduled = res.filter( (redirect) => redirect.email === email) 
 
