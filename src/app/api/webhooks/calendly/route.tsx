@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
     // console.log(req.body)
 
-    console.log('[Info:Webhook] Post request received:\n', req.body);
+    console.log('[Info:Webhook] Post request received:\n', body);
     const eventData = body;
 
     if (eventData.event === 'invitee.created') {
