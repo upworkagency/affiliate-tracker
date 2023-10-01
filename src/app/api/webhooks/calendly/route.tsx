@@ -3,9 +3,9 @@ import { createCalendlyEvent, updateRedirectWithCalendlyEventId } from '../../..
 import type { ColumnType } from "kysely";
 // export const runtime = 'edge'; // 'nodejs' is the default
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
     // Assuming that the POST data is JSON-encoded
-    const body = JSON.parse(req.nextUrl.searchParams.get('body') || '{}');
+    const body = await req.json()
 
     // console.log(req.body)
 

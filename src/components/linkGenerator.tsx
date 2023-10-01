@@ -4,7 +4,7 @@ interface LinkGeneratorProps {
     id: string;
 }
 const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
-    const [platform, setPlatform] = useState<string>('');
+    const [platform, setPlatform] = useState<string>('tiktok');
     const [accountId, setAccountId] = useState<string>(id ?? '');
     const [eventId, setEventId] = useState<string>('3b0bfa02-8d78-4865-ad91-405744270db4');
     const [generatedLink, setGeneratedLink] = useState<string>('');
@@ -66,7 +66,7 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
             </div>
 
             {generatedLink && (
-                <div className="generated-link mt-3 overflow-y-auto">
+                <div className="generated-link mt-3">
                     <p className="text-gray-600 mb-1 text-sm">Your Booking Link:</p>
                     <input type="text" value={generatedLink} readOnly ref={linkInputRef} className="w-full p-1 border rounded text-sm mb-1" />
                     <button onClick={handleCopyLink} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm">Copy Link</button>

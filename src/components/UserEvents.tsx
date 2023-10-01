@@ -19,6 +19,7 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
             </div>
         )
     }
+    console.log("EVENTS: ", eventIDs)
 
     const upcomingEvents = await getEventsByRedirectIDs(eventIDs); // Get all events by event IDs
 
