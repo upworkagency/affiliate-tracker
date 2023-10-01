@@ -43,6 +43,8 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
                     <option value="facebook">Facebook</option>
                     <option value="twitter">Twitter</option>
                     <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="tiktok">YouTube</option>
                 </select>
             </div>
 
@@ -64,7 +66,7 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
             </div>
 
             {generatedLink && (
-                <div className="generated-link mt-3">
+                <div className="generated-link mt-3 overflow-y-auto">
                     <p className="text-gray-600 mb-1 text-sm">Your Booking Link:</p>
                     <input type="text" value={generatedLink} readOnly ref={linkInputRef} className="w-full p-1 border rounded text-sm mb-1" />
                     <button onClick={handleCopyLink} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm">Copy Link</button>

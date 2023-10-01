@@ -42,7 +42,7 @@ interface BarProps {
     return (
         <div className="w-full pr-10">
           <h2 className="text-lg font-semibold mb-4">Platform Redirects</h2>
-          <div className="relative h-40 bg-gray-100 p-4 rounded">
+          <div className="relative h-40 bg-gray-100 p-4 rounded overflow-auto">
             {Object.entries(platformCounts).map(([platform, count]) => {
               const currentColor = colors[colorIndex % colors.length];
               colorIndex++;
