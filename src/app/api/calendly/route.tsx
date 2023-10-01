@@ -1,10 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
-import { getSchedulingUrl } from '../../../lib/calendly';
+import { getSchedulingUrl } from '../../../lib/calendly'
 
-// export const runtime = 'edge'; // 'nodejs' is the default
-
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const params = req.nextUrl.searchParams
 
   const platform = params.get('platform');
@@ -25,10 +23,10 @@ export async function GET(req: NextRequest) {
       account_id: accountID,
       platform: platform,
       calendly_event_id: null
-    };
+    }
     redirect = await createRedirectEntry(redirectData);
   } catch (error) {
-    console.error('[Error:Database]', error);
+    console.error('[Error:Database]', error)
     return NextResponse.json({ error: 'Database error' }, { status: 500 });
   }
 
