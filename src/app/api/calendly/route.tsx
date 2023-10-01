@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
 import { getSchedulingUrl } from '../../../lib/calendly'
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams
 
   const platform = params.get('platform');

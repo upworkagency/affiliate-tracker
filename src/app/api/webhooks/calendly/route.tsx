@@ -3,7 +3,7 @@ import { createCalendlyEvent, updateRedirectWithCalendlyEventId } from '../../..
 import type { ColumnType } from "kysely";
 // export const runtime = 'edge'; // 'nodejs' is the default
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
     // Assuming that the POST data is JSON-encoded
     const body = JSON.parse(req.nextUrl.searchParams.get('body') || '{}');
 
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         
         
         try {
-            const entry = await updateRedirectWithCalendlyEventId(utmSource, calendlyEventId);  // Assuming '1' is the ID of the redirect you want to update
+            const entry = await updateRedirectWithCalendlyEventId(utmSource, calendlyEventId); 
             console.log('[Info:Webhook] Updated Entry:\n', entry);
         } catch (error) {
             console.error('[Error:Webhook]', error);
