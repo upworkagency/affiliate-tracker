@@ -27,9 +27,6 @@ const formatDate = (timestamp: string | undefined) => {
   }
   
 export const EditableTable: React.FC<TableProps> = ({ res }) => {
-
-
-    console.log("RES in EditableTable: ", res)
     const [lockedRows, setLockedRows] = useState<Record<number, boolean>>(
         res.reduce<Record<number, boolean>>(
             (acc, redirect) => {
@@ -40,8 +37,6 @@ export const EditableTable: React.FC<TableProps> = ({ res }) => {
         )
     );
     const [data, setData] = useState<Redirects[]>(res);
-
-    console.log("LOCKED ROWS: ", lockedRows)
 
   const toggleLock = (id: number) => {
     setLockedRows(prevState => ({ ...prevState, [id]: !prevState[id] }));
@@ -74,7 +69,6 @@ const filteredRes = res.filter(redirect => {
         return redirect[key]?.toString().includes(filters[key]?.toString() || "");
     });
 });
-console.log("filtered: ", filteredRes)
 
   return (
     <table className="min-w-full bg-white">
@@ -116,10 +110,10 @@ console.log("filtered: ", filteredRes)
            
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">{redirect.platform}</td>
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
-          {formatDate(redirect.redirect_timestamp?.toString())}
+          {redirect.calendly_event_id ? formatDate(redirect.redirect_timestamp as any) : 'N/A'}
           </td>
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
-          {redirect.booked_timestamp ? formatDate(redirect.booked_timestamp as any) : 'N/A'}
+          {redirect.calendly_event_id ? "BOOKED": 'N/A'}
             </td>
 
           <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">

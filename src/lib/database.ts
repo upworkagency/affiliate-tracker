@@ -45,7 +45,7 @@ export async function createRedirectEntry(redirect: InsertableRedirect) {
       const db = getDbInstance();
   
       // Update the redirect with the calendly_event_id
-      await db.updateTable('redirects')
+      return await db.updateTable('redirects')
           .set({ calendly_event_id: calendlyEventId })
           .where('id', '=', redirectId)
           .execute();
@@ -70,6 +70,8 @@ export async function getRedirectsByEmail(email: string): Promise<Redirects[]> {
 export async function getEventsByRedirectIDs(ids: (number | null)[]): Promise<CalendlyEvents[]>{
     const db = getDbInstance();
     const filteredIds = ids.filter(id => id !== null) as number[];
+
+    console.log('filteredIds', filteredIds)
   
     if (!filteredIds.length) {
         return [];
@@ -77,7 +79,7 @@ export async function getEventsByRedirectIDs(ids: (number | null)[]): Promise<Ca
     return await db.selectFrom('redirects')
         .innerJoin('calendly_events', 'calendly_events.id', 'redirects.calendly_event_id')
         .where('redirects.calendly_event_id', 'in', ids)
-        .select(['calendly_events.*', 'redirects.*'])
+        .select(['calendly_events.id', 'calendly_events.uri', 'calendly_events.name', 'calendly_events.status', 'calendly_events.start_time', 'calendly_events.end_time', 'calendly_events.event_type'])
         .execute();
 }
   

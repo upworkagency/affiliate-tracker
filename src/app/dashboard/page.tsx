@@ -31,7 +31,7 @@ export default async function Page() {
 
   const res = await getRedirectsById(userId)
 
-  const scheduled = res.filter( (redirect) => redirect.email === email) 
+  const scheduled = res.filter( (redirect) => redirect.account_id === userId) 
 
   return (
     <div className="bg-gray-50 p-8 flex flex-col">
@@ -78,17 +78,17 @@ export default async function Page() {
        
       
         <section className="mb-8 p-6 rounded bg-white shadow-md text-sm">
-  <h2 className="text-xl mb-4 font-semibold text-gray-700">Redirects</h2>
-  <Suspense fallback={
-                <div className='flex flex-col justify-center items-center'>
-                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-                    <div className='text-gray-900'>Loading...</div>
-                </div>
-            }>
-    <EditableTable res={res}/>
-  </Suspense>
-    
-</section>
+            <h2 className="text-xl mb-4 font-semibold text-gray-700">Redirects</h2>
+            <Suspense fallback={
+                            <div className='flex flex-col justify-center items-center'>
+                                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+                                <div className='text-gray-900'>Loading...</div>
+                            </div>
+                        }>
+                <EditableTable res={res}/>
+            </Suspense>
+                
+        </section>
 
     </div>
   );
