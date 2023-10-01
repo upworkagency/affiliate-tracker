@@ -31,7 +31,9 @@ export default async function Page() {
 
   const res = await getRedirectsById(userId)
 
-  const scheduled = res.filter( (redirect) => redirect.account_id === userId) 
+  const redirects = res.filter( (redirect) => redirect.account_id === userId) 
+
+  const scheduled = redirects.filter((event)=> event.calendly_event_id !== null)
 
   return (
     <div className="bg-gray-50 p-8 flex flex-col">
@@ -44,7 +46,7 @@ export default async function Page() {
                             <div className='text-gray-900'>Loading...</div>
                         </div>
                     }>
-                        <UserEvents redirects={scheduled}/>
+                        <UserEvents redirects={redirects}/>
                     </Suspense>
                 </div>
                 
