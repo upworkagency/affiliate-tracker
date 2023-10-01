@@ -6,13 +6,13 @@ interface LinkGeneratorProps {
 const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
     const [platform, setPlatform] = useState<string>('');
     const [accountId, setAccountId] = useState<string>(id ?? '');
-    const [eventId, setEventId] = useState<string>('');
+    const [eventId, setEventId] = useState<string>('3b0bfa02-8d78-4865-ad91-405744270db4');
     const [generatedLink, setGeneratedLink] = useState<string>('');
     const linkInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleGenerateLink = () => {
         const baseUrl = "https://www.clubdenegocios.io/api/calendly?";
-        const queryParams = `platform=${platform}&accountId=${accountId}&eventId=3b0bfa02-8d78-4865-ad91-405744270db4`;
+        const queryParams = `platform=${platform}&accountID=${accountId}&eventID=3b0bfa02-8d78-4865-ad91-405744270db4`;
         setGeneratedLink(baseUrl + queryParams);
     };
 
