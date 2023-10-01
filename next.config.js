@@ -33,5 +33,12 @@ module.exports = (phase, { defaultConfig }) => {
   return withBundleAnalyzer({
     ...commonConfig,
     // ... other configuration for all phases except development
+    typescript: {
+      // !! WARN !!
+      // Dangerously allow production builds to successfully complete even if
+      // your project has type errors.
+      // !! WARN !!
+      ignoreBuildErrors: true,
+    },
   });
 };

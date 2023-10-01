@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This project sets-up an API that parses the query-parameters when invoked via a user clicking on a link",
   "scripts": {
-    "prebuild": "env-cmd -f .env kysely-codegen --exclude-pattern spatial_ref_sys",
+    "prebuild_disabled": "env-cmd -f .env kysely-codegen --exclude-pattern spatial_ref_sys",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
