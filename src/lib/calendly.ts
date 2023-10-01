@@ -55,6 +55,16 @@ export async function getEventTypesForOrganization(organizationURI: string) {
     }
 }
 
+export async function getScheduledEvent(eventUuid:string, inviteeUuid: string){
+  try {
+    const response = await axios.get(`https://api.calendly.com/scheduled_events/${eventUuid}/invitees/${inviteeUuid}`)
+    return response.data;
+  } catch (error) {
+      console.error('There was an error fetching event types:', error);
+      throw error;
+  }
+}
+
 export const config = {
   runtime: 'edge',
 };

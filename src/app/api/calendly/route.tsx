@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
     const redirectData: InsertableRedirect = {
       account_id: accountID,
       platform: platform,
+      calendly_event_id: null
     };
     redirect = await createRedirectEntry(redirectData);
   } catch (error) {

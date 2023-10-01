@@ -6,6 +6,7 @@
     "prebuild_disabled": "env-cmd -f .env kysely-codegen --exclude-pattern spatial_ref_sys",
     "dev": "next dev",
     "build": "next build",
+    "migrate": "tsx src/db/migrate.ts",
     "start": "next start",
     "lint": "next lint"
   },
@@ -16,6 +17,7 @@
     "@tanstack/react-table": "^8.10.3",
     "@vercel/postgres-kysely": "^0.4.1",
     "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
     "env-cmd": "^10.1.0",
     "kysely": "^0.26.3",
     "next": "^13.5.2",
@@ -33,6 +35,7 @@
     "kysely-codegen": "^0.10.1",
     "postcss": "^8.4.30",
     "tailwindcss": "^3.3.3",
+    "tsx": "^3.13.0",
     "typescript": "^5.2.2",
     "webpack-bundle-analyzer": "^4.9.1"
   }

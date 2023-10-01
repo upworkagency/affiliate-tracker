@@ -1,6 +1,6 @@
 import { createKysely } from "@vercel/postgres-kysely";
 // import { Kysely } from 'kysely'
-import { type DB, type Redirects } from "kysely-codegen";  // We still use the original Kysely for types
+import { type DB, type Redirects, type CalendlyEvents } from "kysely-codegen";  // We still use the original Kysely for types
 
 let dbInstance: any = null;  // Adjusting this to any, but if @vercel/postgres-kysely provides a specific type, use that instead
 
@@ -25,27 +25,59 @@ export async function createRedirectEntry(redirect: InsertableRedirect) {
         .returning('id')
         .executeTakeFirstOrThrow();
 }
+  type InsertableCalendlyEvent = Omit<CalendlyEvents, 'id' | 'event_timestamp'>;
 
-export async function updateRedirectEntry(id: number, email: string) {
-    const db = getDbInstance();
-    return await db.updateTable('redirects')
-        .set({ booked_timestamp: new Date(), email: email })
-        .where('redirects.id', '=', id)
-        .executeTakeFirstOrThrow();
-}
+  // This function creates a new CalendlyEvent and returns the newly created event's ID
+  export async function createCalendlyEvent(calendlyEventData: InsertableCalendlyEvent): Promise<number> {
+      const db = getDbInstance();
+  
+      // Insert the Calendly event into the CalendlyEvents table
+      const insertedCalendlyEvent = await db.insertInto('calendly_events')
+          .values(calendlyEventData)
+          .returning('id')
+          .executeTakeFirstOrThrow();
+  
+      return insertedCalendlyEvent.id;
+  }
+  
+  // This function updates the Redirects table with the calendly_event_id
+  export async function updateRedirectWithCalendlyEventId(redirectId: string, calendlyEventId: number) {
+      const db = getDbInstance();
+  
+      // Update the redirect with the calendly_event_id
+      await db.updateTable('redirects')
+          .set({ calendly_event_id: calendlyEventId })
+          .where('id', '=', redirectId)
+          .execute();
+  }
+  
 
 export async function getRedirectsByEmail(email: string): Promise<Redirects[]> {
     const db = getDbInstance();
     return await db.selectFrom('redirects')
-      .selectAll()
-      .where('email', '=', email)
-      .execute();
-  }
+        .selectAll()
+        .where('email', '=', email)
+        .execute();
+    }
   export async function getRedirectsById(id: string): Promise<Redirects[]> {
     const db = getDbInstance();
     return await db.selectFrom('redirects')
-      .selectAll()
-      .where('account_id', '=', id)
-      .execute();
-  }
+        .selectAll()
+        .where('account_id', '=', id)
+        .execute();
+    }
+
+export async function getEventsByRedirectIDs(ids: (number | null)[]): Promise<CalendlyEvents[]>{
+    const db = getDbInstance();
+    const filteredIds = ids.filter(id => id !== null) as number[];
+  
+    if (!filteredIds.length) {
+        return [];
+    }
+    return await db.selectFrom('redirects')
+        .innerJoin('calendly_events', 'calendly_events.id', 'redirects.calendly_event_id')
+        .where('redirects.calendly_event_id', 'in', ids)
+        .select(['calendly_events.*', 'redirects.*'])
+        .execute();
+}
   
