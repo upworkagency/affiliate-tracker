@@ -38,11 +38,11 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
     };
 
     return (
-        <div className="w-full link-generator p-4 bg-white shadow-md rounded-lg">
-            <h2 className="text-lg font-medium text-gray-700 mb-3">Generate Booking Link:</h2>
+        <div className="w-full link-generator p-4 shadow-md rounded-lg bg-[#272953]">
+            <h2 className="text-lg font-medium text-white mb-3">Generate Booking Link:</h2>
 
             <div className="input-group mb-3">
-                <label className="block text-gray-600 mb-1 text-sm">Social Media Platform:</label>
+                <label className="block text-white only:mb-1 text-sm">Social Media Platform:</label>
                 <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full p-1 border rounded text-sm">
                     <option value="">Select Platform</option>
                     <option value="facebook">Facebook</option>
@@ -54,12 +54,12 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
             </div>
 
             <div className="input-group mb-3">
-                <label className="block text-gray-600 mb-1 text-sm">Account ID:</label>
+                <label className="block text-white mb-1 text-sm">Account ID:</label>
                 <input type="text" value={accountId} onChange={(e) => setAccountId(e.target.value)} className="w-full p-1 border rounded text-sm" />
             </div>
 
             <div className="input-group mb-3">
-                <label className="block text-gray-600 mb-1 text-sm">Event ID:</label>
+                <label className="block text-white mb-1 text-sm">Event ID:</label>
                 <input type="text" value={eventId} onChange={(e) => setEventId(e.target.value)} className="w-full p-1 border rounded text-sm" />
             </div>
 
@@ -72,7 +72,7 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
 
             {generatedLink && (
                 <div className="generated-link mt-3">
-                    <p className="text-gray-600 mb-1 text-sm">Your Booking Link:</p>
+                    <p className="text-white mb-1 text-sm">Your Booking Link:</p>
                     <input type="text" value={generatedLink} readOnly ref={linkInputRef} className="w-full p-1 border rounded text-sm mb-1" />
                     <button onClick={handleCopyLink} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm">Copy Link</button>
                 </div>
