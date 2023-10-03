@@ -1,68 +1,231 @@
-import { type Redirects, type Generated } from '../../node_modules/kysely-codegen/dist/db'
+"use client"
+import { useState, useEffect } from 'react'
+import { Chart, BarController, LinearScale, CategoryScale, BarElement, DoughnutController, ArcElement } from 'chart.js';
+import type { ChartData, ChartOptions, } from 'chart.js'
+import { Bar, Doughnut } from 'react-chartjs-2';
+import debounce from 'lodash/debounce';
+import { Redirects } from 'kysely-codegen'
 
+interface BarChartProps {
+    data: ChartData<'bar'>;
+    options: ChartOptions<'bar'>;
+}
+interface PlatformRedirectCounts {
+    [key: string]: number;
+}
 interface BarProps {
-    label: string;
-    value: number;
-    max: number;
-  }
-  
-  const Bar: React.FC<BarProps> = ({ label, value, max }) => {
-    console.log(`Rendering bar for ${label} with value ${value}`);
-    return (
-      <div className="mb-4">
-        <div className="text-sm mb-2">{label}</div>
-        <div className="w-full h-4 bg-gray-200 rounded">
-          <div className={`h-full bg-blue-500 rounded w-[${(value / max) * 100}%]`}></div>
-        </div>
-      </div>
-    );
-  };
-  
-
-  interface BarChartProps {
     redirects: Redirects[];
-  }
-  
-  export const BarChart: React.FC<BarChartProps> = ({ redirects }) => {
-    const platformCounts: { [key: string]: number } = {};
-  
-    redirects.forEach((redirect) => {
-      if (platformCounts[redirect.platform]) {
-        platformCounts[redirect.platform]++;
-      } else {
-        platformCounts[redirect.platform] = 1;
-      }
-    });
+}
+const centerTextPlugin = {
+    id: 'centerTextPlugin',
+    afterDraw: (chart: any) => {
+        const width = chart.width;
+        const height = chart.height;
+        const ctx = chart.ctx;
+        ctx.restore();
 
-    const totalRedirects = redirects.length;
-    const maxCount = Math.max(...Object.values(platformCounts));
-    const colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-indigo-500", "bg-purple-500", "bg-pink-500"];
-    let colorIndex = 0;
+        const text = chart.config._activeLabel || "";
+        const textX = Math.round(width / 2);
+        const textY = Math.round(height / 2);
+        
+        ctx.fillStyle = '#000';
+        ctx.font = "20px Arial";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, textX, textY);
+        
+        ctx.save();
+    },
+};
+type Platforms = 'tiktok' | 'youtube' | 'instagram' | 'facebook' | 'twitter';
+const platformColors: Record<Platforms, string> = {
+    tiktok: 'rgba(255, 99, 132, 0.8)',
+    youtube: 'rgba(54, 162, 235, 0.8)',
+    instagram: 'rgba(255, 206, 86, 0.8)',
+    facebook: 'rgba(75, 192, 192, 0.8)',
+    twitter: 'rgba(153, 102, 255, 0.8)',
+    // ... add more platform colors if necessary
+};
+const normalizePlatform = (platform: string): Platforms | null => {
+    switch (platform.toLowerCase()) {
+        case 'tiktok':
+            return 'tiktok';
+        case 'youtube':
+            return 'youtube';
+        case 'instagram':
+            return 'instagram';
+        case 'facebook':
+            return 'facebook';
+        case 'twitter':
+            return 'twitter';
+        default:
+            return null;  // Or handle other platforms accordingly
+    }
+};
+export const BarChart:React.FC<BarProps> = ({ redirects }) => {
+    Chart.register(BarController, LinearScale, CategoryScale, BarElement, DoughnutController, ArcElement, centerTextPlugin);
+    // Chart.register(centerTextPlugin);
 
-    return (
-        <div className="w-full pr-10">
-          <h2 className="text-lg font-semibold mb-4">Platform Redirects</h2>
-          <div className="relative h-40 bg-gray-100 p-4 rounded overflow-auto">
-            {Object.entries(platformCounts).map(([platform, count]) => {
-              const currentColor = colors[colorIndex % colors.length];
-              colorIndex++;
-              return (
-                <div key={platform} className="mb-2">
-                  <div className="text-sm mb-1">{platform}</div>
-                  <div
-                    className={`relative ${currentColor} h-5 rounded`}
-                    style={{ width: `${(count / maxCount) * 100}%` }}
-                  >
-                    <span className="absolute top-0 left-1/2 transform -translate-x-1/2 text-white text-xs">
-                      {count}
-                    </span>
-                  </div>
+    const [platformCounts, setPlatformCounts] = useState<Record<string, number>>({});
+
+    useEffect(() => {
+        const counts: Record<string, number> = {};
+        redirects.forEach(redirect => {
+            const normalizedPlatform = normalizePlatform(redirect.platform);
+            if (normalizedPlatform) {
+                counts[normalizedPlatform] = (counts[normalizedPlatform] || 0) + 1;
+            }
+        });
+        setPlatformCounts(counts);
+    }, [redirects]);
+    const [hoverPlatform, setHoverPlatform] = useState<string | null>(redirects.length > 0 ? redirects[0].platform : null);
+    const [hoverCoords, setHoverCoords] = useState<{top: number, left: number} | null>({ top: 50, left: 650 }); // Adjust the values based on your layout.
+    // Extract keys (platform names) and values (redirect counts) from the counts object
+    const platforms = Object.keys(platformCounts);
+    const redirectCounts = Object.values(platformCounts);
+
+    const getDonutDataForPlatform = (platform: string) => {
+        console.log("Platform:", platform)
+    
+        // Filter all redirects for the given platform.
+        const redirectsForPlatform = redirects.filter(r => r.platform === platform);
+    
+        // Count the number of redirects that resulted in bookings.
+        const totalBookings = redirectsForPlatform.filter(r => r.calendly_event_id !== null).length;
+    
+        // Calculate the number of redirects that did not result in bookings.
+        const totalNonBookings = redirectsForPlatform.length - totalBookings;
+    
+        console.log("Total Redirects (non-bookings):", totalNonBookings)
+        console.log("Total Bookings:", totalBookings)
+    
+        return {
+            labels: ['Clicks (Not Booked)', 'Bookings'],
+            datasets: [{
+                data: [totalNonBookings, totalBookings],
+                backgroundColor: ['#FF6384', '#36A2EB']
+            }]
+        };
+    };
+    
+    const backgroundColors = platforms.map(platform => platformColors[platform as Platforms] || '#ccc');
+    const borderColors = platforms.map(platform => platformColors[platform as Platforms] || '#aaa');
+
+    const data: ChartData<'bar'> = {
+        labels: platforms,
+        datasets: [{
+            data: redirectCounts,
+            label: 'Total Clicks',  // You can adjust this label as per your requirement
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+        }]
+    };
+    const handleHover = debounce((event, chartElements) => {
+        console.log(event)
+        if (chartElements && chartElements.length > 0) {
+            const { index } = chartElements[0];
+            const left = chartElements[0].element.x;
+            const top = chartElements[0].element.y;
+            
+            // Only set the platform if it has changed to avoid re-renders.
+            if (hoverPlatform !== platforms[index]) {
+                setHoverPlatform(platforms[index]);
+            }
+            
+            // Always update the coordinates.
+            setHoverCoords({ top, left });
+        } // No need to reset to null when unhovered.
+    }, 200);  // debounce for 200ms. Adjust as needed.
+    
+    
+    const options: ChartOptions<'bar'> = {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: 'white' // color for the tick text
+                },
+                title: {
+                    display: true,
+                    text: 'Clicks',
+                    color: 'white'  // color for the X-axis title
+                }
+            },
+            y: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: 'white' // color for the tick text
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white'  // color for the legend labels
+                }
+            }
+        },
+        onHover: handleHover
+        
+    }
+    
+    const props: BarChartProps = {
+        data: data,
+        options: options
+    }
+
+    const donutData = hoverPlatform ? getDonutDataForPlatform(hoverPlatform) : null;
+  
+    
+    
+    const donutOptions = {
+        responsive: true,
+        maintainAspectRatio: true,
+        animation: {
+            onProgress: function(animation:any) {
+                const chart = animation.chart;
+                const ctx = chart.ctx;
+                const width = chart.width;
+                const height = chart.height;
+                
+                ctx.restore();
+                
+                const platform = hoverPlatform || ''; // Defaulting to empty string if hoverPlatform is null
+                const textX = Math.round(width / 2);
+                const textY = Math.round(height / 2) + 15;
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = "20px Arial";
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(platform, textX, textY);
+                
+                ctx.save();
+            }
+        }
+      };
+      return (
+        <div className='flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full h-full'>
+            <div className='flex flex-col w-full sm:w-1/2 h-full justify-center'>
+                <div className="h-[200px]"> 
+                    <Bar data={data} options={options} />
                 </div>
-              );
-            })}
-          </div>
-          <div className="mt-2 text-sm">Total Redirects: {totalRedirects}</div>
+            </div>
+    
+            {hoverPlatform && donutData && (
+                <div className="flex flex-col w-full sm:w-1/2 h-full justify-center">
+                    <div className="h-[300px]"> 
+                        <Doughnut data={donutData} options={donutOptions} />
+                    </div>
+                </div>
+            )}
         </div>
-      );
-  };
-  
+    );
+}

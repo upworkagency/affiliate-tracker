@@ -13,8 +13,8 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
 
     if(!eventIDs){
         return (
-            <div className='w-full shadow-md rounded-md p-6 bg-white h-[275px]'>
-                <h2 className="text-xl font-semibold text-gray-700"> Upcoming Events: </h2>
+            <div className='w-full shadow-md rounded-md p-6 bg-[#272953] h-[275px]'>
+                <h2 className="text-xl font-semibold text-white"> Upcoming Events: </h2>
                 <div className="h-40 flex flex-col align-middle justify-center text-center text-sm text-gray-600">No Events</div>
             </div>
         )
@@ -25,8 +25,10 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
         .filter(redirect => new Date(redirect.start_time.toString()) > currentDate); // Filter out past events
 
         return (
-            <div className='w-full shadow-md rounded-md p-6 bg-white h-[275px] overflow-auto'>
-                <h2 className="text-xl font-semibold text-gray-700"> Upcoming Events: </h2>
+            <div className='w-full shadow-md rounded-md p-6 bg-[#272953] h-[275px]'>
+                <div className='h-full overflow-auto hide-scrollbar'>
+                <h2 className="text-xl font-semibold text-white  mb-2"> Upcoming Events: </h2>
+                <div className='text-white  overflow-y-hidden'>
                 {
                     upcomingEvents.length > 0 ? 
                     upcomingEvents.map((event) => {
@@ -40,7 +42,7 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
         
                         return (
                             <div key={event.account_id} className='flex flex-row'>
-                                <div className='p-2 pl-6 border-b text-sm'>                        
+                                <div className='p-2 pl-6 border-b text-sm text-white'>                        
                                 {
                                     startTime.toLocaleString('en-us', { 
                                         weekday: "long", 
@@ -53,14 +55,16 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
                                     })
                                 }
                                 </div>
-                                <div className='p-2 pl-6 border-b text-sm'>
+                                <div className='p-2 pl-6 border-b-slate-400 text-sm text-white scroll-m-0'>
                                     Duration: {duration}
                                 </div>
                             </div>
                         )
                     }) :
                     <div className="h-40 flex flex-col align-middle justify-center text-center text-sm text-gray-600">No Events</div>
-                }
+                } 
+                </div>
+                </div>
             </div>
     );
         

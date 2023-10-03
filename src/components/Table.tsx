@@ -71,29 +71,29 @@ const filteredRes = res.filter(redirect => {
 });
 
   return (
-    <table className="min-w-full bg-white">
-      <thead className="bg-gray-200 ">
+    <table className="min-w-full">
+      <thead className="text-gray-50">
         <tr>
-        <th className=''>
+        <th className='bg-none text-gray-50'>
             <input
-                className='h-10 w-full outline-none'
-                placeholder="Filter by Platform"
+                className='bg-transparent h-10 w-full outline-none'
+                placeholder="Platform"
                 value={filters.platform}
                 onChange={e => setFilters(prev => ({ ...prev, platform: e.target.value }))}
             />
         </th>
         <th className=''>
             <input
-                className='h-10 w-full outline-none'
-                placeholder="Filter by Timestamp"
+                className='bg-transparent h-10 w-full outline-none'
+                placeholder="Timestamp"
                 value={filters.redirect_timestamp as unknown as string}
                 onChange={e => setFilters((prev: Partial<Redirects>): Partial<Redirects> => ({ ...prev, redirect_timestamp: e.target.value as any }))}
                 />
         </th>
         <th >
             <input
-                className='h-10 w-full outline-none'
-                placeholder="Filter by Booked"
+                className=' bg-transparent h-10 w-full outline-none'
+                placeholder="Booked"
                 value={filters.booked_timestamp  as unknown as string}
                 onChange={e => setFilters(prev => ({ ...prev, booked_timestamp: e.target.value as any }))}
             />
@@ -108,15 +108,15 @@ const filteredRes = res.filter(redirect => {
           <tr key={redirect.id.toString()}>
             {/* ... other cells ... */}
            
-          <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">{redirect.platform}</td>
-          <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
+          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left" >{redirect.platform}</td>
+          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white  text-left w-full">
           {redirect.calendly_event_id ? formatDate(redirect.redirect_timestamp as any) : 'N/A'}
           </td>
-          <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
+          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
           {redirect.calendly_event_id ? "BOOKED": 'N/A'}
             </td>
 
-          <td className="px-6 py-2 whitespace-no-wrap border-b border-gray-300">
+          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
               {
                 redirect.id && (
                     lockedRows[redirect.id as unknown as number] ? (
@@ -130,7 +130,7 @@ const filteredRes = res.filter(redirect => {
                 )
               }
             </td>
-            <td className=" py-1 whitespace-no-wrap border-b border-gray-300">
+            <td className=" py-1 whitespace-no-wrap border-b border-gray-300  text-white">
               {lockedRows[redirect.id as unknown as number] ? (
                 <button onClick={() => toggleLock(redirect.id as unknown as number)}>Unlock to Edit</button>
               ) : (

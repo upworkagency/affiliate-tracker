@@ -38,7 +38,7 @@ export const PieChart: React.FC<DoughnutProps> = ({ totalRedirects, redirectsLea
       <text 
         x={size / 2} 
         y={size / 2 - 10}
-        fill="#333"
+        fill="#ffffff"
         fontSize="12px"
         textAnchor="middle"
       >
@@ -48,7 +48,7 @@ export const PieChart: React.FC<DoughnutProps> = ({ totalRedirects, redirectsLea
       <text 
         x={size / 2} 
         y={size / 2 + 10}
-        fill="#333"
+        fill="#ffffff"
         fontSize="12px"
         textAnchor="middle"
       >
