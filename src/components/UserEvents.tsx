@@ -25,8 +25,9 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
         .filter(redirect => new Date(redirect.start_time.toString()) > currentDate); // Filter out past events
 
         return (
-            <div className='w-full shadow-md rounded-md p-6 bg-[#272953] h-[275px]'>
-                <div className='h-full overflow-auto hide-scrollbar'>
+            <div className='w-full shadow-md  h-full'>
+            <div className='overflow-auto hide-scrollbar '>
+                <div className="p-2 sm:max-h-[438px]">
                 <h2 className="text-xl font-semibold text-white  mb-2"> Upcoming Events: </h2>
                 <div className='text-white  overflow-y-hidden'>
                 {
@@ -42,7 +43,7 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
         
                         return (
                             <div key={event.account_id} className='flex flex-row'>
-                                <div className='p-2 pl-6 border-b text-sm text-white'>                        
+                                <div className='pl-2 border-b text-sm text-white'>                        
                                 {
                                     startTime.toLocaleString('en-us', { 
                                         weekday: "long", 
@@ -63,6 +64,7 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
                     }) :
                     <div className="h-40 flex flex-col align-middle justify-center text-center text-sm text-gray-600">No Events</div>
                 } 
+                </div>
                 </div>
                 </div>
             </div>

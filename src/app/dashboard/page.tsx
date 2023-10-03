@@ -4,6 +4,7 @@ import { EditableTable } from '../../components/Table';
 import { PieChart } from '../../components/Pie'
 import { BarChart } from '../../components/barChart';
 import { LineChart } from '../../components/lineChart';
+import LinkGenerator from '../../components/linkGenerator';
 import { currentUser, SignIn } from "@clerk/nextjs";
 import { getRedirectsById } from '../../lib/database'
 import { Suspense } from 'react';
@@ -57,18 +58,31 @@ export default async function Page() {
   return (
     <div className="bg-[#16113A] p-8 flex flex-col">
         <div className='flex flex-wrap w-full'>
-            <div className='flex-grow w-full sm:w-1/2 p-2'>
-                <Suspense fallback={
-                    <div className='flex flex-col justify-center items-center'>
-                        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-                        <div className='text-gray-900'>Loading...</div>
+            <div className='w-full sm:w-1/2 p-2'>
+            <div className='w-full flex flex-col sm:flex-row justify-between sm:max-h-[438px]'>
+                <div className='mb-3 sm:mb-0 sm:mr-3 w-full sm:w-1/2'>
+                    <LinkGenerator id={userId}/>
+                </div>
+                <div className='w-full sm:w-1/2'>
+                    <div className='bg-[#272953] p-6 rounded-lg sm:h-[438px]'>
+                        <h2 className="text-xl mb-4 font-semibold text-white">Upcoming Events:</h2>
+                        <div className="h-[calc(438px-6rem)] overflow-auto hide-scrollbar">
+                            <Suspense fallback={
+                                <div className='flex flex-col justify-center items-center'>
+                                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+                                    <div className='text-gray-900'>Loading...</div>
+                                </div>
+                            }>
+                                <UserEvents redirects={redirects}/>
+                            </Suspense>
+                        </div>
                     </div>
-                }>
-                    <UserEvents redirects={redirects}/>
-                </Suspense>
+                </div>
+            </div>
+                
             </div>
 
-            <div className='w-full sm:w-1/2 p-2'>
+            <div className='w-full sm:w-1/2 p-2 '>
                 <Suspense  fallback={
                     <div className='flex flex-col justify-center items-center'>
                         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>

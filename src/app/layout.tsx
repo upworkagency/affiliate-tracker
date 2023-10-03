@@ -6,7 +6,7 @@ import Head from 'next/head';
 const Navigation = () => {
 
   return (
-    <div className='flex flex-row w-full h-10 bg-[#232323]'>
+    <div className='flex flex-row w-full h-10 bg-[#060926]'>
       <Link href='/' className="text-3xl mb-6 font-semibold text-white pl-2 self-start">clubdenegocios</Link>
       <Link href={'/dashboard'} className='text-white self-center justify-center pl-6'> Dashboard </Link>
     </div>
