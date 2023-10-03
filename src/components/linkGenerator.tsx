@@ -38,7 +38,7 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
     };
 
     return (
-        <div className="link-generator p-4 bg-white shadow-md rounded-lg">
+        <div className="w-full link-generator p-4 bg-white shadow-md rounded-lg">
             <h2 className="text-lg font-medium text-gray-700 mb-3">Generate Booking Link:</h2>
 
             <div className="input-group mb-3">

@@ -103,7 +103,7 @@ export const BarChart:React.FC<BarProps> = ({ redirects }) => {
             labels: ['Clicks (Not Booked)', 'Bookings'],
             datasets: [{
                 data: [totalNonBookings, totalBookings],
-                backgroundColor: ['#FF6384', '#36A2EB']
+                backgroundColor: ['#16113A', platformColors[platform as Platforms] || '#ccc'],
             }]
         };
     };
