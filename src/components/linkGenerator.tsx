@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 interface LinkGeneratorProps {
     id: string;
 }
@@ -9,7 +9,12 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
     const [eventId, setEventId] = useState<string>('3b0bfa02-8d78-4865-ad91-405744270db4');
     const [generatedLink, setGeneratedLink] = useState<string>('');
     const linkInputRef = useRef<HTMLInputElement | null>(null);
-
+    useEffect(() => {
+        // Check if all required values are set
+        if (platform && accountId && eventId) {
+            handleGenerateLink();
+        }
+    }, [platform, accountId, eventId]);
     const handleGenerateLink = () => {
         const baseUrl = "https://www.clubdenegocios.io/api/calendly?";
         const queryParams = `platform=${platform}&accountID=${accountId}&eventID=3b0bfa02-8d78-4865-ad91-405744270db4`;
@@ -44,7 +49,7 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
                     <option value="twitter">Twitter</option>
                     <option value="instagram">Instagram</option>
                     <option value="tiktok">TikTok</option>
-                    <option value="tiktok">YouTube</option>
+                    <option value="youtube">YouTube</option> {/* Adjusted the value */}
                 </select>
             </div>
 
