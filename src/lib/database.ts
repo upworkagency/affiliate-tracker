@@ -4,6 +4,7 @@ import { type DB, type Redirects, type CalendlyEvents } from "kysely-codegen";  
 
 let dbInstance: any = null;  // Adjusting this to any, but if @vercel/postgres-kysely provides a specific type, use that instead
 
+
 function createDatabaseInstance() {
     return createKysely<DB>( );
 }

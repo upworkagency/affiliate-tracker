@@ -1,12 +1,14 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
 import { getSchedulingUrl } from '../../../lib/calendly'
+export const runtime = 'edge' // 'nodejs' is the default
 
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams
 
   const platform = params.get('platform');
   const accountID = params.get('accountID');
+  console.log("ACCOUNT ID", accountID)
   const eventID = params.get('eventID');
 
   if (!platform || !accountID || !eventID) {
