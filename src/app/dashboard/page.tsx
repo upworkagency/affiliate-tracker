@@ -5,31 +5,26 @@ import { PieChart } from '../../components/Pie'
 import { BarChart } from '../../components/barChart';
 import { LineChart } from '../../components/lineChart';
 import LinkGenerator from '../../components/linkGenerator';
-import { currentUser, SignIn } from "@clerk/nextjs";
+import { currentUser, SignIn, useOrganization } from "@clerk/nextjs";
 import { getRedirectsById } from '../../lib/database'
 import { Suspense } from 'react';
 import { Redirects } from 'kysely-codegen'
-
-// type ReferralData = {
-//   totalRedirects: number;
-//   totalCalls: number;
-//   redirects: Redirects[];
-//   events: CalendlyEvents[];
-// };
-// export interface CalendlyEvents {
-//   id: Generated<number>;
-//   account_id: string | null;
-//   event_data: Json;
-//   event_timestamp: Generated<Timestamp | null>;
-// // }
 
 export default async function Page() {
     //   const [data, setData] = useState<ReferralData | null>(null);
 
     const user = await currentUser();
-    
-    if (!user) return <div>Not logged in</div>;
+    const organization = useOrganization({ memberships: true });
 
+    const members = organization.memberships
+
+   const m = members?.data?.forEach((member) => {
+        console.log(member)
+        return member
+    })
+    if(!user){
+        return (<div>Not logged in</div>)
+    }
   const email = user.emailAddresses[0].emailAddress
   const userId = user.id
 

@@ -124,7 +124,7 @@ const Page:NextPage = () => {
           <div className="flex h-full w-full flex-row justify-center align-middle">
             <div className="flex h-full w-128 flex-col justify-center align-middle">
               <div>
-                <SignIn  />
+                <SignIn redirectUrl={'/dashboard'} path='login' />
                 {/* <SignInForm /> */}
               </div>
             </div>
