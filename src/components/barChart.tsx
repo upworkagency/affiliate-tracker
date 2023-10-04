@@ -63,6 +63,13 @@ const normalizePlatform = (platform: string): Platforms | null => {
     }
 };
 export const BarChart:React.FC<BarProps> = ({ redirects }) => {
+    if(redirects.length === 0){
+        return (
+            <div className="flex flex-col w-full sm:w-1/2 h-full justify-center">
+                No Analytics
+            </div>
+        )
+    }
     Chart.register(BarController, LinearScale, CategoryScale, BarElement, DoughnutController, ArcElement, centerTextPlugin);
     // Chart.register(centerTextPlugin);
 

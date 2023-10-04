@@ -28,7 +28,6 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
             <div className='w-full shadow-md  h-full'>
             <div className='overflow-auto hide-scrollbar '>
                 <div className="p-2 sm:max-h-[438px]">
-                <h2 className="text-xl font-semibold text-white  mb-2"> Upcoming Events: </h2>
                 <div className='text-white  overflow-y-hidden'>
                 {
                     upcomingEvents.length > 0 ? 
