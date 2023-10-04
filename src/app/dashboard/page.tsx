@@ -44,7 +44,13 @@ export default async function Page() {
   }
 
 
-  const redirects = res.filter( (redirect) => redirect.account_id === userId) 
+  let redirects = res.filter( (redirect) => redirect.account_id === userId) 
+  redirects = redirects.filter(redirect => 
+    typeof redirect.id !== 'undefined' && 
+    typeof redirect.account_id === 'string' && 
+    typeof redirect.platform === 'string' && 
+    (redirect.redirect_timestamp instanceof Date || redirect.redirect_timestamp === null)
+    );
 
   const counts = generateCounts(redirects);
 
