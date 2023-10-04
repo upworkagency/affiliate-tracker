@@ -14,14 +14,14 @@ export default async function Page() {
     //   const [data, setData] = useState<ReferralData | null>(null);
 
     const user = await currentUser();
-    const organization = useOrganization({ memberships: true });
+//     const organization = useOrganization({ memberships: true });
 
-    const members = organization.memberships
+//     const members = organization.memberships
 
-   const m = members?.data?.forEach((member) => {
-        console.log(member)
-        return member
-    })
+//    const m = members?.data?.forEach((member) => {
+//         console.log(member)
+//         return member
+//     })
     if(!user){
         return (<div>Not logged in</div>)
     }
