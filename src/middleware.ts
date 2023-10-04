@@ -4,12 +4,12 @@ import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
 export default authMiddleware({
   publicRoutes: ["/login", "/sign-up","/api/webhooks/calendly", "/api/calendly"],
-  afterAuth(auth, req, evt) {
-    console.log("Auth: ", auth);
-    // handle users who aren't authenticated
-    return redirectToSignIn({ returnBackUrl: req.url + "/login" });
+//   afterAuth(auth, req, evt) {
+//     console.log("Auth: ", auth);
+//     // handle users who aren't authenticated
+//     return redirectToSignIn({ returnBackUrl: req.url + "/login" });
 
-  },
+//   },
 });
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
