@@ -76,10 +76,14 @@ const processData = (redirects: Redirects[]) => {
 
 
 const getEarliestDate = (redirects: Redirects[]) => {
-    let earliest: Date = new Date(redirects[0].redirect_timestamp.toString());
+    if (!redirects || redirects.length === 0) return new Date();
+
+    let earliest: Date = new Date(redirects[0].redirect_timestamp?.toString() || '');
     for (let redirect of redirects) {
-        const current = new Date(redirect.redirect_timestamp.toString());
-        if (current < earliest) earliest = current;
+        if (redirect && redirect.redirect_timestamp) {
+            const current = new Date(redirect.redirect_timestamp?.toString() || '');
+            if (current < earliest) earliest = current;
+        }
     }
     earliest.setHours(0, 0, 0, 0);
     return earliest;
@@ -114,6 +118,12 @@ const transformToChartJsFormat = (processedData: any, currentDate: Date, earlies
 };
 
 export const LineChart: React.FC<LineChartProps> = ({ redirects }) => {
+    if(!redirects) return (
+        <div>
+            <h1>Redirects</h1>
+            <p>No data</p>
+        </div>
+    )
   const earliestDate = getEarliestDate(redirects);
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
