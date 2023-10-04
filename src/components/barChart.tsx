@@ -65,7 +65,7 @@ const normalizePlatform = (platform: string): Platforms | null => {
 export const BarChart:React.FC<BarProps> = ({ redirects }) => {
     if(redirects.length === 0){
         return (
-            <div className="flex flex-col w-full sm:w-1/2 h-full justify-center">
+            <div className="flex flex-col w-full sm:w-1/2 h-full justify-center text-white">
                 No Analytics
             </div>
         )
