@@ -7,9 +7,8 @@ export default authMiddleware({
   afterAuth(auth, req, evt) {
     console.log("Auth: ", auth);
     // handle users who aren't authenticated
-    if (!auth.userId && !auth.isPublicRoute) {
-      return redirectToSignIn({ returnBackUrl: req.url + "/login" });
-    }
+    return redirectToSignIn({ returnBackUrl: req.url + "/login" });
+
   },
 });
 export const config = {
