@@ -1,5 +1,4 @@
 import React from 'react'
-import LinkGenerator from '../components/linkGenerator';
 import { currentUser } from '@clerk/nextjs';
 export default async function Page() {
     const user = await currentUser();
@@ -11,7 +10,7 @@ export default async function Page() {
     return (
         <div style={{ height: 'calc(100% - 45px)' }} className='w-full flex items-center justify-center bg-[#16113A]'>
             <div className='p-6'>
-                <LinkGenerator id={user.id}/>
+            
             </div>
         </div>
     )

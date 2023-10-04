@@ -19,6 +19,15 @@ module.exports = (phase, { defaultConfig }) => {
     
         return config;
       },
+      async redirects() {
+        return [
+          {
+            source: '/',
+            destination: '/dashboard',
+            permanent: true,
+          },
+        ]
+      },
   };
 
   if (phase === PHASE_DEVELOPMENT_SERVER) {

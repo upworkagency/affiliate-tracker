@@ -52,12 +52,7 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
                     <option value="youtube">YouTube</option> {/* Adjusted the value */}
                 </select>
             </div>
-
-            <div className="input-group mb-3">
-                <label className="block text-white mb-1 text-sm">Account ID:</label>
-                <input type="text" value={accountId} onChange={(e) => setAccountId(e.target.value)} className="w-full p-1 border rounded text-sm" />
-            </div>
-
+            
             <div className="input-group mb-3">
                 <label className="block text-white mb-1 text-sm">Event ID:</label>
                 <input type="text" value={eventId} onChange={(e) => setEventId(e.target.value)} className="w-full p-1 border rounded text-sm" />
