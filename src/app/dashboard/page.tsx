@@ -12,7 +12,7 @@ import { Suspense } from 'react';
 import { Redirects } from 'kysely-codegen'
 import Loading from './loading';
 
-const admin_ids = ['user_2VtTiEOsKed5P7Pp4Cz43XDaz9q', 'user_2WLjCFrFxmflLTNsYLcJoD54GxS']
+const admin_ids = ['user_2VtTiEOsKed5P7Pp4Cz43XDaz9q', 'user_2WLjCFrFxmflLTNsYLcJoD54GxS', 'user_2WJPAx618kDIHX66pITbyuvfdz8']
 
 interface PlatformRedirectCounts {
     [key: string]: number;
