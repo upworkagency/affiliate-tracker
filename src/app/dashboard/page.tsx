@@ -174,7 +174,7 @@ export default async function Page() {
                             <Suspense fallback={
                                <Loading/>
                             }>
-                                <EditableTable res={userRedirects}/>
+                                <RedirectsTable rows={userRedirects}/>
                             </Suspense>
                         </div>
                     </div>
