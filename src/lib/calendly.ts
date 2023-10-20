@@ -75,6 +75,6 @@ export async function getScheduledEvent(eventUuid: string, inviteeUuid: string) 
 }
 
 
-// export const config = {
-//   runtime: 'edge',
-// };
+export const config = {
+  runtime: 'edge',
+};

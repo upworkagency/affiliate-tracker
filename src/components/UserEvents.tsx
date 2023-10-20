@@ -13,8 +13,8 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
 
     if(!eventIDs){
         return (
-            <div className='w-full shadow-md rounded-md p-6 bg-[#272953] h-[275px]'>
-                <h2 className="text-xl font-semibold text-white"> Upcoming Events: </h2>
+            <div className='w-full shadow-md rounded-md p-4 bg-[#272953] h-[275px]'>
+                <h2 className="font-medium text-white text-base"> Upcoming Events: </h2>
                 <div className="h-40 flex flex-col align-middle justify-center text-center text-sm text-gray-600">No Events</div>
             </div>
         )
@@ -27,7 +27,7 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
         return (
             <div className='w-full shadow-md  h-full'>
             <div className='overflow-auto hide-scrollbar '>
-                <div className="p-2 sm:max-h-[438px]">
+                <div className="sm:max-h-[284px]">
                 <div className='text-white  overflow-y-hidden'>
                 {
                     upcomingEvents.length > 0 ? 
@@ -41,22 +41,21 @@ export const UserEvents: React.FC<UserEventProps> = async ({ redirects }) => {
                         const duration = (hours > 0 ? `${hours}h ` : "") + `${minutes}m`;
         
                         return (
-                            <div key={event.account_id} className='flex flex-row'>
-                                <div className='pl-2 border-b text-sm text-white'>                        
+                            <div key={event.account_id} className='flex flex-row py-2 justify-between'>
+                                <div className='flex justify-center items-center text-xs text-white'>                        
                                 {
                                     startTime.toLocaleString('en-us', { 
-                                        weekday: "long", 
+                                        weekday: "short", 
                                         year: "numeric", 
                                         month: "short", 
                                         day: "numeric", 
                                         hour: '2-digit', 
                                         minute: '2-digit', 
-                                        timeZoneName: 'short'
                                     })
                                 }
                                 </div>
-                                <div className='p-2 pl-6 border-b-slate-400 text-sm text-white scroll-m-0'>
-                                    Duration: {duration}
+                                <div className='text-xs text-white scroll-m-0 w-2/12'>
+                                    {duration}
                                 </div>
                             </div>
                         )

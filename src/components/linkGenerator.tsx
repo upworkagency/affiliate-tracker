@@ -32,14 +32,13 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
 
     const handleReset = () => {
         setPlatform('');
-        setAccountId('');
-        setEventId('');
+        setEventId('3b0bfa02-8d78-4865-ad91-405744270db4');
         setGeneratedLink('');
     };
 
     return (
-        <div className="w-full link-generator p-4 shadow-md rounded-lg bg-[#272953]">
-            <h2 className="text-lg font-medium text-white mb-3">Generate Booking Link:</h2>
+        <div className="w-full link-generator p-4 shadow-md rounded-lg bg-[#272953] h-[350px]">
+            <h2 className="text-base font-medium text-white mb-3">Generate Booking Link:</h2>
 
             <div className="input-group mb-3">
                 <label className="block text-white only:mb-1 text-sm">Social Media Platform:</label>
@@ -52,12 +51,6 @@ const LinkGenerator: React.FC<LinkGeneratorProps> = ({ id }) => {
                     <option value="youtube">YouTube</option> {/* Adjusted the value */}
                 </select>
             </div>
-            
-            <div className="input-group mb-3">
-                <label className="block text-white mb-1 text-sm">Event ID:</label>
-                <input type="text" value={eventId} onChange={(e) => setEventId(e.target.value)} className="w-full p-1 border rounded text-sm" />
-            </div>
-
             <div className="mt-3">
                 <button onClick={handleGenerateLink} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm mr-2">Generate Link</button>
                 {generatedLink && (

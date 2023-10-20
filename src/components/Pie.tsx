@@ -16,16 +16,16 @@ export const PieChart: React.FC<DoughnutProps> = ({ totalRedirects, redirectsLea
   return (
     <svg width={size} height={size}>
       <circle 
-        cx={size / 2} 
-        cy={size / 2} 
+        cx={size / 2.5} 
+        cy={size / 2.5} 
         r={circleRadius} 
         fill="none"
         stroke="#FF6384" 
         strokeWidth={strokeWidth} 
       />
       <circle 
-        cx={size / 2} 
-        cy={size / 2} 
+        cx={size / 2.5} 
+        cy={size / 2.5} 
         r={circleRadius} 
         fill="none"
         stroke="#4BC0C0" 

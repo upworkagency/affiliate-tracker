@@ -2,6 +2,7 @@ import React from 'react'
 import { currentUser } from '@clerk/nextjs';
 export default async function Page() {
     const user = await currentUser();
+
     if(!user) return (
     <div className='w-full h-full flex flex-row align-middle items-center'>
         <h1>Not logged in</h1> 

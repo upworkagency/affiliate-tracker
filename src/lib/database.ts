@@ -68,6 +68,13 @@ export async function getRedirectsByEmail(email: string): Promise<Redirects[]> {
         .execute();
     }
 
+export async function getAllRedirects(): Promise<Redirects[]> {
+    const db = getDbInstance();
+    return await db.selectFrom('redirects')
+        .selectAll()
+        .execute();
+}
+
 export async function getEventsByRedirectIDs(ids: (number | null)[]): Promise<CalendlyEvents[]>{
     const db = getDbInstance();
     const filteredIds = ids.filter(id => id !== null) as number[];

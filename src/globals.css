@@ -6,7 +6,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+  font-family: var(--font-monserrat), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
   font-size: 18px;
@@ -49,4 +49,26 @@ img {
 .hide-scrollbar {
   -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
   scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+h1, h2 {
+  font-family: var(--font-raleway);
+}
+div, input, span, tr {
+  font-family: var(--font-monserrat);
+  font-weight: 400;
+}
+.box {
+  border: 2px solid green;
+  position: relative;
+  transform: translate(0);
+  transform-style: preserve-3d;
+}
+.shadow:before {
+  content:"";
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0,0,-1px);
+  background: conic-gradient(from 90deg at 40% -25%, #ffd700, #EF7443, #ee6907, #e6390a, #de0d0d, #d61039, #cf1261, #c71585, #cf1261, #d61039, #de0d0d, #EF7443, #f79d03, #ffd700, #ffd700, #ffd700);
+  filter: blur(10px);
+  clip-path: polygon(-100vmax -100vmax,100vmax -100vmax,100vmax 100vmax,-100vmax 100vmax,-100vmax -100vmax,0 0,0 100%,100% 100%,100% 0,0 0);
 }

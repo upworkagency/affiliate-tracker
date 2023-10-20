@@ -5,6 +5,7 @@ import type { ChartData, ChartOptions, } from 'chart.js'
 import { Bar, Doughnut } from 'react-chartjs-2';
 import debounce from 'lodash/debounce';
 import { Redirects } from 'kysely-codegen'
+import { type Defaults } from 'chart.js';
 
 interface BarChartProps {
     data: ChartData<'bar'>;
@@ -39,10 +40,11 @@ const centerTextPlugin = {
 };
 type Platforms = 'tiktok' | 'youtube' | 'instagram' | 'facebook' | 'twitter';
 const platformColors: Record<Platforms, string> = {
-    tiktok: 'rgba(255, 99, 132, 0.8)',
     youtube: 'rgba(54, 162, 235, 0.8)',
-    instagram: 'rgba(255, 206, 86, 0.8)',
+    tiktok: 'rgba(255, 99, 132, 0.8)',
     facebook: 'rgba(75, 192, 192, 0.8)',
+    instagram: 'rgba(255, 206, 86, 0.8)',
+   
     twitter: 'rgba(153, 102, 255, 0.8)',
     // ... add more platform colors if necessary
 };
@@ -192,7 +194,7 @@ export const BarChart:React.FC<BarProps> = ({ redirects }) => {
   
     
     
-    const donutOptions = {
+    const donutOptions:ChartOptions<"doughnut"> = {
         responsive: true,
         maintainAspectRatio: true,
         animation: {
@@ -206,8 +208,8 @@ export const BarChart:React.FC<BarProps> = ({ redirects }) => {
                 
                 const platform = hoverPlatform || ''; // Defaulting to empty string if hoverPlatform is null
                 const textX = Math.round(width / 2);
-                const textY = Math.round(height / 2) + 15;
-                
+                const textY = Math.round(height / 2) - Math.round(height / 2)*.1;
+          
                 ctx.fillStyle = '#ffffff';
                 ctx.font = "20px Arial";
                 ctx.textAlign = 'center';
@@ -216,23 +218,51 @@ export const BarChart:React.FC<BarProps> = ({ redirects }) => {
                 
                 ctx.save();
             }
+        },
+        layout: {
+            padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+            }
+        },
+        plugins:  {
+            // Change options for ALL labels of THIS CHART
+            legend: {
+                labels: {
+                    color: 'white',  // color for the legend labels
+                    boxHeight: 10,  
+                    usePointStyle: true,
+                    pointStyle: 'circle', 
+                    // boxPadding: 20
+                },
+                fullSize: true,
+                align: 'center',
+                position: "bottom"
+            }
         }
+        
       };
       return (
-        <div className='flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full h-full'>
-            <div className='flex flex-col w-full sm:w-1/2 h-full justify-center'>
-                <div className="h-[200px]"> 
-                    <Bar data={data} options={options} />
-                </div>
-            </div>
-    
-            {hoverPlatform && donutData && (
-                <div className="flex flex-col w-full sm:w-1/2 h-full justify-center">
-                    <div className="h-[300px]"> 
-                        <Doughnut data={donutData} options={donutOptions} />
+        <div className='xl:w-full p-4 flex flex-col sm:flex-col space-y-4 sm:space-y-0 sm:space-x-4 w-full h-full bg-[#272953] rounded-lg '>
+            <h1 className=' text-white'>Analytics</h1>
+            <div className='p-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full h-full'>
+                <div className='flex flex-col w-full sm:w-1/2 h-full justify-center'>
+                    <div className="lg:h-[250px]"> 
+                        <Bar data={data} options={options} />
                     </div>
                 </div>
-            )}
+        
+                {hoverPlatform && donutData && (
+                    <div className="flex flex-col w-full sm:w-1/2 h-full justify-center items-center">
+                        <div className="lg:h-[250px]"> 
+                            <Doughnut data={donutData} options={donutOptions} />
+                        </div>
+                    </div>
+                )}
+            </div>
+            
         </div>
     );
 }

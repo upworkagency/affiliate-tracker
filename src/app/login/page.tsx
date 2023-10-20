@@ -9,90 +9,90 @@ import { useRouter } from "next/navigation";
 import { useSession, SignIn } from "@clerk/nextjs";
 import Error from "next/error";
 const SignInForm = () => {
-    const { isLoaded, signIn, setActive } = useSignIn();
-    
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-        event.preventDefault();
-      console.log(event)
-      if (event.target instanceof HTMLFormElement) {
-        const formData = new FormData(event.target);
-        const emailAddress = formData.get("email");
-        const password = formData.get("password");
+  const { isLoaded, signIn, setActive } = useSignIn();
   
-        if (!signIn) return;
-        if (!emailAddress || !password) return;
-  
-        const response = await signIn
-          .create({
-            identifier: emailAddress.toString(),
-            password: password.toString(),
-          })
-          .then(async (result) => {
-            console.log("RESULT", result)
-            if (result.status === "complete") {
-              await setActive({ session: result.createdSessionId });
-            } else {
-              console.log(result);
-            }
-          })
-          .catch((err) => console.error("error", err));
-  
-        console.log("RESPONSE: ", response);
-      }
-    };
-  
-    if (!isLoaded) {
-      // Handle loading state
-      return null;
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+      event.preventDefault();
+    console.log(event)
+    if (event.target instanceof HTMLFormElement) {
+      const formData = new FormData(event.target);
+      const emailAddress = formData.get("email");
+      const password = formData.get("password");
+
+      if (!signIn) return;
+      if (!emailAddress || !password) return;
+
+      const response = await signIn
+        .create({
+          identifier: emailAddress.toString(),
+          password: password.toString(),
+        })
+        .then(async (result) => {
+          console.log("RESULT", result)
+          if (result.status === "complete") {
+            await setActive({ session: result.createdSessionId });
+          } else {
+            console.log(result);
+          }
+        })
+        .catch((err) => console.error("error", err));
+
+      console.log("RESPONSE: ", response);
     }
-  
-    return (
-      <form
-        onSubmit={ async (event) => await handleSubmit(event)}
-        className="rounded-md border border-gray-500 bg-white pb-12 pl-10 pr-10 pt-12 shadow-login"
-      >
-        <div className="mb-3 flex flex-col"> 
-          <label
-            htmlFor="email"
-            className="mb-2 font-sans text-base font-medium text-green"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className="rounded-md border border-gray-300 pb-1 pl-3 pr-3 pt-1"
-            required
-          />
-        </div>
-        <div className="mb-3 flex flex-col">
-          <label
-            htmlFor="password"
-            className="mb-2 font-sans text-base font-medium text-green"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            className="rounded-md border border-gray-300 pb-1 pl-3 pr-3 pt-1"
-            required
-          />
-        </div>
-        <button className="mb-4 mt-4 w-full rounded-md bg-light-green p-2 font-sans text-base font-medium text-green transition hover:bg-green hover:text-white">
-          Sign in
-        </button>
-        <Link
-          href="/forgot-password"
+  };
+
+  if (!isLoaded) {
+    // Handle loading state
+    return null;
+  }
+
+  return (
+    <form
+      onSubmit={ async (event) => await handleSubmit(event)}
+      className="rounded-md border border-gray-500 bg-white pb-12 pl-10 pr-10 pt-12 shadow-login"
+    >
+      <div className="mb-3 flex flex-col"> 
+        <label
+          htmlFor="email"
           className="mb-2 font-sans text-base font-medium text-green"
         >
-          Forgot password?
-        </Link>
-      </form>
-    );
-  };
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          className="rounded-md border border-gray-300 pb-1 pl-3 pr-3 pt-1"
+          required
+        />
+      </div>
+      <div className="mb-3 flex flex-col">
+        <label
+          htmlFor="password"
+          className="mb-2 font-sans text-base font-medium text-green"
+        >
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          className="rounded-md border border-gray-300 pb-1 pl-3 pr-3 pt-1"
+          required
+        />
+      </div>
+      <button className="mb-4 mt-4 w-full rounded-md bg-light-green p-2 font-sans text-base font-medium text-green transition hover:bg-green hover:text-white">
+        Sign in
+      </button>
+      <Link
+        href="/forgot-password"
+        className="mb-2 font-sans text-base font-medium text-green"
+      >
+        Forgot password?
+      </Link>
+    </form>
+  );
+};
 
 const Page:NextPage = () => {
   //   const { session } = useSession();
@@ -124,7 +124,7 @@ const Page:NextPage = () => {
           <div className="flex h-full w-full flex-row justify-center align-middle">
             <div className="flex h-full w-128 flex-col justify-center align-middle">
               <div>
-                <SignIn />
+                <SignIn redirectUrl={'/dashboard'}/>
                 {/* <SignInForm /> */}
               </div>
             </div>

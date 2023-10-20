@@ -3,6 +3,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, LineController, LinearScale, CategoryScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Redirects } from 'kysely-codegen';
+import type { ChartData, ChartOptions, } from 'chart.js'
 
 Chart.register(
     LineController,
@@ -110,7 +111,7 @@ const transformToChartJsFormat = (processedData: any, currentDate: Date, earlies
         label: platform,
         data: allDates.map(date => processedData[date]?.[platform]?.redirects || 0),
         bookedData: allDates.map(date => processedData[date]?.[platform]?.booked || 0),
-        borderColor: platformColors[platformKey] || '#' + Math.floor(Math.random() * 16777215).toString(16),  // use the mapped color, or generate a random color if not found
+        borderColor: platformColors[platformKey] || '#ffffff',  // use the mapped color, or generate a random color if not found
         fill: false
     };
 });
@@ -130,21 +131,27 @@ export const LineChart: React.FC<LineChartProps> = ({ redirects }) => {
   const processedData = processData(redirects);
   const { datasets, labels } = transformToChartJsFormat(processedData, currentDate, earliestDate);
   const data = { labels, datasets };
-  const options = {
+  const options:ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: { title: { display: true, text: 'Date' } },
+      x: { title: { display: true, text: 'Date', color: 'white' },
+      grid: {
+        color: 'transparent'
+    }    },
       y: {
         title: {
             display: true,
-            text: 'Counts'
+            text: 'Counts',
+            color: 'white'
         },
         ticks: {
             stepSize: 1,
-            precision: 0,
-            beginAtZero: true
+        },
+        grid: {
+            color: 'transparent'
         }
+        
     }
     },
     plugins: {
@@ -160,8 +167,16 @@ export const LineChart: React.FC<LineChartProps> = ({ redirects }) => {
         }
       },
       legend: {
-        display: true
+        display: true,
+        labels: {
+            color: 'white',
+
+        },
+        align: 'start',
       },
+      colors: {
+        enabled: true,
+      }
     }
   };
   return <Line data={data} options={options} />;

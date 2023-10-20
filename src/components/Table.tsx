@@ -27,6 +27,12 @@ const formatDate = (timestamp: string | undefined) => {
   }
   
 export const EditableTable: React.FC<TableProps> = ({ res }) => {
+  const [filters, setFilters] = useState<Partial<Redirects>>({
+    platform: "",
+    redirect_timestamp: "" as any,
+    booked_timestamp: "" as any
+});
+
     const [lockedRows, setLockedRows] = useState<Record<number, boolean>>(
         res.reduce<Record<number, boolean>>(
             (acc, redirect) => {
@@ -37,7 +43,11 @@ export const EditableTable: React.FC<TableProps> = ({ res }) => {
         )
     );
     const [data, setData] = useState<Redirects[]>(res);
+// Pagination state variables
 
+
+// Change page
+const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const toggleLock = (id: number) => {
     setLockedRows(prevState => ({ ...prevState, [id]: !prevState[id] }));
   };
@@ -55,11 +65,6 @@ export const EditableTable: React.FC<TableProps> = ({ res }) => {
   };
 
 
-  const [filters, setFilters] = useState<Partial<Redirects>>({
-    platform: "",
-    redirect_timestamp: "" as any,
-    booked_timestamp: "" as any
-});
 // Helper function to get unique values for filtering
 const getUniqueValues = (key: keyof Redirects) => Array.from(new Set(res.map(redirect => redirect[key])));
 
@@ -69,9 +74,16 @@ const filteredRes = res.filter(redirect => {
         return redirect[key]?.toString().includes(filters[key]?.toString() || "");
     });
 });
+const [currentPage, setCurrentPage] = useState(1);
+const rowsPerPage = 10;  // You can adjust this value as needed
 
+// Pagination logic
+const indexOfLastRow = currentPage * rowsPerPage;
+const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+const currentRows = filteredRes.slice(indexOfFirstRow, indexOfLastRow);
   return (
-    <table className="min-w-full">
+    <div>
+      <table className="min-w-full">
       <thead className="text-gray-50">
         <tr>
         <th className='bg-none text-gray-50'>
@@ -98,39 +110,34 @@ const filteredRes = res.filter(redirect => {
                 onChange={e => setFilters(prev => ({ ...prev, booked_timestamp: e.target.value as any }))}
             />
         </th>
-        <th className="px-6 py-2 border-b border-gray-300 text-left text-sm leading-4 text-gray-600">CLOSED</th> {/* New Header */}
+        <th className="px-6 py-2 border-b border-gray-300 text-left text-sm leading-4 text-gray-600">CLOSED</th>
         <th className="px-6 py-2 border-b border-gray-300 text-left text-sm leading-4 text-gray-600">Actions</th>
         </tr>
        
       </thead>
       <tbody>
-        {filteredRes.map(redirect => (
+        {currentRows.map(redirect => (
           <tr key={redirect.id.toString()}>
-            {/* ... other cells ... */}
-           
-          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left" >{redirect.platform}</td>
-          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white  text-left w-full">
-          {redirect.calendly_event_id ? formatDate(redirect.redirect_timestamp as any) : 'N/A'}
-          </td>
-          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
-          {redirect.calendly_event_id ? "BOOKED": 'N/A'}
+            <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left">
+              {redirect.platform}
             </td>
-
-          <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
-              {
-                redirect.id && (
-                    lockedRows[redirect.id as unknown as number] ? (
-                        "Pending"
-                    ) : (
-                        <select defaultValue="Pending">
-                        <option value="Closed">Closed</option>
-                        <option value="Pending">Pending</option>
-                        </select>
-                    )
+            <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
+              {redirect.calendly_event_id ? formatDate(redirect.redirect_timestamp as any) : 'N/A'}
+            </td>
+            <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
+              {redirect.calendly_event_id ? "BOOKED" : 'N/A'}
+            </td>
+            <td className="px-3 py-2 whitespace-no-wrap border-b border-gray-300 text-white text-left w-full">
+              {redirect.id && (
+                lockedRows[redirect.id as unknown as number] ? "Pending" : (
+                  <select defaultValue="Pending">
+                    <option value="Closed">Closed</option>
+                    <option value="Pending">Pending</option>
+                  </select>
                 )
-              }
+              )}
             </td>
-            <td className=" py-1 whitespace-no-wrap border-b border-gray-300  text-white">
+            <td className="py-1 whitespace-no-wrap border-b border-gray-300 text-white">
               {lockedRows[redirect.id as unknown as number] ? (
                 <button onClick={() => toggleLock(redirect.id as unknown as number)}>Unlock to Edit</button>
               ) : (
@@ -139,7 +146,30 @@ const filteredRes = res.filter(redirect => {
             </td>
           </tr>
         ))}
-      </tbody>
+</tbody>
+
     </table>
+      {/* Pagination controls */}
+      <div className="pagination">
+        <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+          First
+        </button>
+        <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+          Prev
+        </button>
+        {Array.from({ length: Math.ceil(filteredRes.length / rowsPerPage) }, (_, index) => (
+          <button key={index} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
+        <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredRes.length / rowsPerPage)))} disabled={currentPage === Math.ceil(filteredRes.length / rowsPerPage)}>
+          Next
+        </button>
+        <button onClick={() => setCurrentPage(Math.ceil(filteredRes.length / rowsPerPage))} disabled={currentPage === Math.ceil(filteredRes.length / rowsPerPage)}>
+          Last
+        </button>
+      </div>
+    </div>
+    
   );
 };
