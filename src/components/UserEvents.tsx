@@ -54,7 +54,6 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
                                 <tr key={event.account_id} className={isEvenRow ? 'bg-[#1f1f3d]' : ''}>
                                     <td className='p-2 border-b border-gray-400 text-xs'>
                                         {startTime.toLocaleString('en-us', {
-                                            year: "numeric",
                                             month: "short",
                                             day: "numeric",
                                             hour: '2-digit',
