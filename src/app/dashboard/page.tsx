@@ -7,10 +7,11 @@ import { BarChart } from '../../components/barChart';
 import { LineChart } from '../../components/lineChart';
 import LinkGenerator from '../../components/linkGenerator';
 import { currentUser, SignIn, useOrganization } from "@clerk/nextjs";
-import { getRedirectsById, getAllRedirects } from '../../lib/database'
+import { getRedirectsById, getAllRedirects, getEventsByRedirectIDs } from '../../lib/database'
 import { Suspense } from 'react';
 import { Redirects } from 'kysely-codegen'
 import Loading from './loading';
+import { clerkClient } from '@clerk/nextjs';
 
 const admin_ids = ['user_2VtTiEOsKed5P7Pp4Cz43XDaz9q', 'user_2WLjCFrFxmflLTNsYLcJoD54GxS', 'user_2WJPAx618kDIHX66pITbyuvfdz8']
 
@@ -26,6 +27,41 @@ const generateCounts = (redirectsArray: Redirects[]): PlatformRedirectCounts => 
         return acc;
     }, {} as PlatformRedirectCounts);
 }
+export const getBestPerformingRedirects = (allRedirects: Redirects[]): { accountId: string, redirects: { platform: string, count: number }[] }[] => {
+    // Group by account_id and platform
+    const grouped: Record<string, Record<string, number>> = {};
+
+    allRedirects.forEach(redirect => {
+        if (!grouped[redirect.account_id]) {
+            grouped[redirect.account_id] = {};
+        }
+
+        if (!grouped[redirect.account_id][redirect.platform]) {
+            grouped[redirect.account_id][redirect.platform] = 0;
+        }
+
+        // Increment the count if there's a successful booking
+        if (redirect.calendly_event_id !== null) {
+            grouped[redirect.account_id][redirect.platform]++;
+        }
+    });
+
+    // Convert the grouped object to an array, include account_id, and sort
+    const sorted: { accountId: string, redirects: { platform: string, count: number }[] }[] = [];
+
+    for (const accountId in grouped) {
+        const redirects = Object.entries(grouped[accountId])
+            .map(([platform, count]) => ({ platform, count }))
+            .sort((a, b) => b.count - a.count); // Sort in descending order of count
+
+        sorted.push({ accountId, redirects });
+    }
+
+    return sorted;
+}
+
+
+
 export default async function Page() {
 
     const user = await currentUser();
@@ -47,21 +83,44 @@ export default async function Page() {
         console.log("ALL REDIRECTS", allRedirects)
         const counts = generateCounts(allRedirects);
         const scheduled = allRedirects.filter((event)=> event.calendly_event_id !== null)
+
+        const bestPerformingRedirects = getBestPerformingRedirects(allRedirects).slice(0,10);
+        const eventIDs = allRedirects.map(redirect => redirect.calendly_event_id); // Get all event IDs
+        let events = await getEventsByRedirectIDs(eventIDs); // Get all events by event IDs
+        const fetchUsername = async (userId: string) => {
+            // Replace this with your actual API call or function to fetch the username
+            const response = await clerkClient.users.getUser(userId)
+            const firstName = response.firstName
+            const lastName = response.lastName
+            const email = response.emailAddresses
+            return {
+                firstName: firstName,
+                lastName: lastName,
+                email: email
+            };
+        };
+        
+        const users = await Promise.all(events.map(event => event.account_id ? fetchUsername(event.account_id) : ''));
+        events = events.map((event, index) => ({
+            ...event,
+            username: users[index]
+        }));
+
         return (
             <div className="bg-[#16113A] p-2 sm:p-8 flex flex-col">
+                 <h1 className='pb-8 pl-9 text-white'>Welcome, { name ? name : '' }!</h1>
             <div className='flex flex-col xl:flex-row w-full items-center'>
-                <div className='w-full p-2 '>
-                    <h1 className='pb-8 pl-9 text-white'>Welcome, { name ? name : '' }!</h1>
+          
                     <div className='w-full flex flex-col sm:flex-row justify-between sm:max-h-[438px] xl:w-full '>
                         
                         <div className='w-full sm:w-1/2'>
                             <div className='bg-[#272953] p-6 rounded-lg h-[350px]'>
                                 <h2 className="text-base mb-4 font-semibold text-white">Upcoming Events:</h2>
-                                <div className="h-[calc(284px-6rem)] overflow-auto hide-scrollbar font-normal">
+                                <div className="h-[calc(364px-6rem)] overflow-auto hide-scrollbar font-normal">
                                     <Suspense fallback={
                                         <Loading/>
                                     }>
-                                        <UserEvents redirects={allRedirects}/>
+                                        <UserEvents events={events}/>
                                     </Suspense>
                                 </div>
                             </div>
@@ -75,7 +134,7 @@ export default async function Page() {
                         </div>
                     </div>
                         
-                </div>
+               
                 <div className='w-full xl:w-full p-2'>
                     <Suspense  fallback={
                        <Loading/>
