@@ -61,7 +61,7 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
                                         }).replace(/\u2009/g, ' ').replace(' ', ' ')}
                                     </td>
                                     <td className='p-2 border-b border-gray-400 text-xs'>{duration}</td>
-                                    <td className='p-2 border-b border-gray-400 text-xs'>{event.email}</td>
+                                    <td className='p-2 border-b border-gray-400 text-xs'>{event.name}</td>
                                     <td className='p-2 border-b border-gray-400 text-xs'>{event.account_id}</td>
                                 </tr>
                             );

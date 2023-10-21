@@ -19,7 +19,7 @@ export function getDbInstance() {
 
 export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp' | 'booked_timestamp' | 'email'>;
 
-export async function createRedirectEntry(redirect: InsertableRedirect) {
+export async function createRedirectEntry(redirect: InsertableRedirect){
     const db = getDbInstance();
     return await db.insertInto('redirects')
         .values(redirect)

@@ -50,5 +50,7 @@ export async function GET(req: NextRequest) {
     ? `${calendlyUrl}&utm_source=${redirect.id.toString()}`
     : `${calendlyUrl}?utm_source=${redirect.id.toString()}`;
 
+    console.log("Calendly URL", calendlyUrlWithUtm)
+
   return NextResponse.redirect(calendlyUrlWithUtm, 302);
 }

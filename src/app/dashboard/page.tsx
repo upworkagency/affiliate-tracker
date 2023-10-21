@@ -71,7 +71,6 @@ export default async function Page() {
 
     const name = user.firstName
     const userId = user.id
-    console.log("USERID", userId)
     if(admin_ids.includes(userId)){
         let allRedirects = await getAllRedirects()
         allRedirects = allRedirects.filter(redirect => 
@@ -80,11 +79,6 @@ export default async function Page() {
             typeof redirect.platform === 'string' && 
             (redirect.redirect_timestamp instanceof Date || redirect.redirect_timestamp === null)
         )
-        console.log("ALL REDIRECTS", allRedirects)
-        const counts = generateCounts(allRedirects);
-        const scheduled = allRedirects.filter((event)=> event.calendly_event_id !== null)
-
-        const bestPerformingRedirects = getBestPerformingRedirects(allRedirects).slice(0,10);
         const eventIDs = allRedirects.map(redirect => redirect.calendly_event_id); // Get all event IDs
         let events = await getEventsByRedirectIDs(eventIDs); // Get all events by event IDs
         const fetchUsername = async (userId: string) => {
