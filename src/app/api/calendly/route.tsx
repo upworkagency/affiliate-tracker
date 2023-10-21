@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
   let calendlyUrl;
   try {
     calendlyUrl = await getSchedulingUrl(eventID, token);
-    calendlyUrl = `https://www.calendly.com/${calendlyUrl}?utm_source=${accountID}`
+    calendlyUrl = `${calendlyUrl}?utm_source=${accountID}`
     
   } catch (error) {
     console.error('[Error:Calendly]', error);
