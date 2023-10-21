@@ -22,7 +22,7 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
     const displayedEvents = view === 'upcoming' ? upcomingEvents : passedEvents;
 
     return (
-        <div className='relative first-letter:w-full shadow-md rounded-md p-4 bg-[#272953] h-full'>
+        <div className='relative first-letter:w-full shadow-md rounded-md bg-[#272953] h-full'>
             <div className="pb-10">
                 <select  value={view} onChange={(e) => setView(e.target.value)} className="bg-white text-black p-2 rounded text-xs absolute">
                     <option className='text-xs' value="upcoming">Upcoming Events</option>
