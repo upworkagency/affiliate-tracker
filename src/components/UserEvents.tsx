@@ -33,7 +33,7 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
             <table className='w-full text-white border-collapse'>
                 <thead>
                     <tr>
-                        <th className='w-1/4 p-2 border-b border-gray-400 text-left text-xs'>Date & Time</th>
+                        <th className='w-1/4 p-2 border-b border-gray-400 text-left text-xs'>Date</th>
                         <th className='w-1/4 p-2 border-b border-gray-400 text-left text-xs'>Duration</th>
                         <th className='p-2 border-b border-gray-400 text-left text-xs'>Client</th>
                         <th className='p-2 border-b border-gray-400 text-left text-xs'>Closer</th>
