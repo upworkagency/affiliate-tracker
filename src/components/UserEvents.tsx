@@ -50,6 +50,8 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
                             const duration = (hours > 0 ? `${hours}h ` : "") + `${minutes}m`;
                             const isEvenRow = index % 2 === 0;
 
+                            console.log("EVENT DATA ", event.utmSource)
+
                             return (
                                 <tr key={event.account_id} className={isEvenRow ? 'bg-[#1f1f3d]' : ''}>
                                     <td className='p-2 border-b border-gray-400 text-xs'>
@@ -62,7 +64,7 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
                                     </td>
                                     <td className='p-2 border-b border-gray-400 text-xs'>{duration}</td>
                                     <td className='p-2 border-b border-gray-400 text-xs'>{event.name}</td>
-                                    <td className='p-2 border-b border-gray-400 text-xs'>{event.account_id}</td>
+                                    <td className='p-2 border-b border-gray-400 text-xs'>{event.utmSource}</td>
                                 </tr>
                             );
                         })

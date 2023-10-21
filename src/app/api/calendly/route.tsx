@@ -41,14 +41,16 @@ export async function GET(req: NextRequest) {
   let calendlyUrl;
   try {
     calendlyUrl = await getSchedulingUrl(eventID, token);
+    calendlyUrl = `https://www.calendly.com/${calendlyUrl}?utm_source=${accountID}`
+    
   } catch (error) {
     console.error('[Error:Calendly]', error);
     return NextResponse.json({ error: 'Error generating Calendly URL' }, { status: 500 });
   }
 
   const calendlyUrlWithUtm = calendlyUrl.includes('?') 
-    ? `${calendlyUrl}&utm_source=${redirect.id.toString()}`
-    : `${calendlyUrl}?utm_source=${redirect.id.toString()}`;
+    ? `${calendlyUrl}&utm_source=${accountID}`
+    : `${calendlyUrl}&utm_source=${accountID}`;
 
     console.log("Calendly URL", calendlyUrlWithUtm)
 
