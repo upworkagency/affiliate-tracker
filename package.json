@@ -4,7 +4,7 @@
   "description": "This project sets-up an API that parses the query-parameters when invoked via a user clicking on a link",
   "scripts": {
     "prebuild": "npx kysely-codegen --exclude-pattern spatial_ref_sys",
-    "build": "&& npm run build",
+    "build": "npm run build",
     "dev": "next dev",
     "migrate": "tsx src/db/migrate.ts",
     "start": "next start",
