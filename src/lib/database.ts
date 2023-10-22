@@ -44,16 +44,16 @@ type InsertableCalendlyEvent = Omit<CalendlyEvents, 'id' | 'event_timestamp'>;
   // This function updates the Redirects table with the calendly_event_id
   export async function updateRedirectWithCalendlyEventId(utmSource: string, calendlyEventId: number) {
     console.log('Inside updateRedirectWithCalendlyEventId');
-  console.log('utmSource:', utmSource, 'Type:', typeof utmSource);
-  console.log('calendlyEventId:', calendlyEventId, 'Type:', typeof calendlyEventId);
-  // rest of your code
-      const db = getDbInstance();
-  
-      // Update the redirect with the calendly_event_id
-      return await db.updateTable('redirects')
-          .set({ calendly_event_id: calendlyEventId })
-          .where('id', '=', utmSource)
-          .execute();
+    console.log('utmSource:', utmSource, 'Type:', typeof utmSource);
+    console.log('calendlyEventId:', calendlyEventId, 'Type:', typeof calendlyEventId);
+    // rest of your code
+        const db = getDbInstance();
+    
+        // Update the redirect with the calendly_event_id
+        return await db.updateTable('redirects')
+            .set({ calendly_event_id: calendlyEventId })
+            .where('id', '=', utmSource)
+            .execute();
   }
   
 
