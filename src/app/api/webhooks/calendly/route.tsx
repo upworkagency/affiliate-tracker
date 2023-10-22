@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             utmSource: utmSource
         });
     
-        // Use the returned calendlyEventId to update the Redirects table
+        // Use the returned calendlyEventId to update thea Redirects table
         
         
         try {
