@@ -29,7 +29,7 @@ export async function createRedirectEntry(redirect: InsertableRedirect){
   type InsertableCalendlyEvent = Omit<CalendlyEvents, 'id' | 'event_timestamp'>;
 
   // This function creates a new CalendlyEvent and returns the newly created event's ID
-  export async function createCalendlyEvent(calendlyEventData: InsertableCalendlyEvent): Promise<number> {
+  export async function createCalendlyEvent(calendlyEventData): Promise<number> {
       const db = getDbInstance();
   
       // Insert the Calendly event into the CalendlyEvents table
