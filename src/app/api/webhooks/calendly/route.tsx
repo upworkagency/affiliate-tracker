@@ -14,7 +14,9 @@ export async function POST(req: Request) {
         const email = payload.email; 
         const name = payload.name;
         const rescheduleUrl = payload.reschedule_url;
-        const utmSource = payload.tracking.utm_source as string
+        const utmSource = String(payload.tracking.utm_source || '');
+        console.log('utmSource:', utmSource, 'Type:', typeof utmSource);
+
         const uri = payload.uri
         const cancelUrl = payload.cancel_url
         const startTime = payload.scheduled_event.start_time;
