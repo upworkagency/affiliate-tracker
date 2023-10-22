@@ -42,7 +42,6 @@ export async function GET(req: NextRequest) {
   try {
     calendlyUrl = await getSchedulingUrl(eventID, token);
     calendlyUrl = `${calendlyUrl}?utm_source=${accountID}`
-    
   } catch (error) {
     console.error('[Error:Calendly]', error);
     return NextResponse.json({ error: 'Error generating Calendly URL' }, { status: 500 });

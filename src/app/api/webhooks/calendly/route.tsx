@@ -7,8 +7,6 @@ export async function POST(req: Request) {
     // Assuming that the POST data is JSON-encoded
     const body = await req.json()
 
-    // console.log(req.body)
-
     console.log('[Info:Webhook] Post request received:\n', body);
     const eventData = body;
 
@@ -34,7 +32,11 @@ export async function POST(req: Request) {
             start_time: startTime, // your start time here
             end_time: endTime, // your end time here
             event_type: type,
-            event_data: eventData
+            event_data: eventData,
+            email: email,
+            rescheduleUrl: rescheduleUrl,
+            cancelUrl: cancelUrl,
+            utmSource: utmSource
         });
     
         // Use the returned calendlyEventId to update the Redirects table
