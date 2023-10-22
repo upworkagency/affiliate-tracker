@@ -6,8 +6,6 @@ export async function POST(req: Request) {
     console.log("TESTING")
     // Assuming that the POST data is JSON-encoded
     const body = await req.json()
-
-    console.log('[Info:Webhook] Post request received:\n', body);
     const eventData = body;
 
     if (eventData.event === 'invitee.created') {
@@ -16,7 +14,7 @@ export async function POST(req: Request) {
         const email = payload.email; 
         const name = payload.name;
         const rescheduleUrl = payload.reschedule_url;
-        const utmSource = payload.tracking.utm_source;
+        const utmSource = payload.tracking.utm_source as string
         const uri = payload.uri
         const cancelUrl = payload.cancel_url
         const startTime = payload.scheduled_event.start_time;
@@ -44,7 +42,6 @@ export async function POST(req: Request) {
         
         try {
             const entry = await updateRedirectWithCalendlyEventId(utmSource, calendlyEventId); 
-            console.log('[Info:Webhook] Updated Entry:\n', entry);
         } catch (error) {
             console.error('[Error:Webhook]', error);
             return NextResponse.json({ error: 'Database error' }, { status: 500 });
