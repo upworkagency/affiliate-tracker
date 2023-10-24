@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createCalendlyEvent, updateRedirectWithCalendlyEventId } from '../../../../lib/database'; // Import from your actual database module
-// export const runtime = 'edge'; // 'nodejs' is the default
+export const runtime = 'edge'; // 'nodejs' is the default
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-    console.log("TESTING")
     // Assuming that the POST data is JSON-encoded
     const body = await req.json()
     const eventData = body;
