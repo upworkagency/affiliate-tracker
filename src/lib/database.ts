@@ -1,6 +1,56 @@
 import { createKysely } from "@vercel/postgres-kysely";
 // import { Kysely } from 'kysely'
-import { type DB, type Redirects, type CalendlyEvents } from "kysely-codegen";  // We still use the original Kysely for types
+import type { ColumnType } from "kysely";
+
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
+
+export type Json = ColumnType<JsonValue, string, string>;
+
+export type JsonArray = JsonValue[];
+
+export type JsonObject = {
+  [K in string]?: JsonValue;
+};
+
+export type JsonPrimitive = boolean | null | number | string;
+
+export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
+
+export type Timestamp = ColumnType<Date, Date | string, Date | string>;
+
+export interface CalendlyEvents {
+  id: Generated<number>;
+  account_id: string | null;
+  event_data: Json;
+  event_timestamp: Generated<Timestamp | null>;
+  uri: string;
+  name: string;
+  status: string;
+  start_time: Timestamp;
+  end_time: Timestamp;
+  event_type: string;
+  email: string | null;
+  rescheduleUrl: string | null;
+  utmSource: string | null;
+  cancelUrl: string | null;
+}
+
+export interface Redirects {
+  id: Generated<number>;
+  account_id: string;
+  platform: string;
+  redirect_timestamp: Generated<Timestamp | null>;
+  booked_timestamp: Timestamp | null;
+  email: string | null;
+  calendly_event_id: number | null;
+}
+
+export interface DB {
+  calendly_events: CalendlyEvents;
+  redirects: Redirects;
+}
 
 let dbInstance: any = null;  // Adjusting this to any, but if @vercel/postgres-kysely provides a specific type, use that instead
 

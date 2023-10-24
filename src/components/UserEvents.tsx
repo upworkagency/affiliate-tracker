@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { CalendlyEvents } from 'kysely-codegen/dist/db';
+import { CalendlyEvents } from '../lib/database';
 
 interface UserEventProps {
     events: CalendlyEvents[];

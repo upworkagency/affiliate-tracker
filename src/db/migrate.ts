@@ -7,7 +7,7 @@ import {
   PostgresDialect,
   FileMigrationProvider,
 } from 'kysely'
-import { type DB  } from "kysely-codegen";  
+import { type DB  } from "../lib/database";  
 
 import { config } from 'dotenv';
 import { resolve } from 'path';

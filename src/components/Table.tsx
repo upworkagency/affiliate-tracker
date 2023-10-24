@@ -1,16 +1,13 @@
 "use client"
 import React, { useState } from 'react';
-import { type Redirects, type Generated } from '../../node_modules/kysely-codegen/dist/db'
+import { type Redirects, type Generated } from '../lib/database'
 
 interface TableProps {
   res: Redirects[];
 }
-type ColumnType<S, I, U> = any;
 
 type Extract<T> = T extends Generated<infer U> ? U : never;
 
-type IdType = Extract<Redirects["id"]>;
-type DateType = Extract<Redirects["redirect_timestamp"]>;
 // type IdType<T> = T extends ColumnType<infer S, any, any> ? S : never;
 const formatDate = (timestamp: string | undefined) => {
     if (!timestamp) return '';
