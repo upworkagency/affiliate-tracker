@@ -102,7 +102,7 @@ type InsertableCalendlyEvent = Omit<CalendlyEvents, 'id' | 'event_timestamp'>;
         // Update the redirect with the calendly_event_id
         return await db.updateTable('redirects')
             .set({ calendly_event_id: calendlyEventId })
-            .where('id', '=', utmSource)
+            .where('account_id', '=', utmSource)
             .execute();
   }
   
