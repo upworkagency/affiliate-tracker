@@ -9,7 +9,7 @@ import LinkGenerator from '../../components/linkGenerator';
 import { currentUser, SignIn, useOrganization } from "@clerk/nextjs";
 import { getRedirectsById, getAllRedirects, getEventsByRedirectIDs } from '../../lib/database'
 import { Suspense } from 'react';
-import { Redirects } from 'kysely-codegen'
+import { Redirects } from 'k../../lib/database'
 import Loading from './loading';
 import { clerkClient } from '@clerk/nextjs';
 
@@ -81,24 +81,15 @@ export default async function Page() {
         )
         const eventIDs = allRedirects.map(redirect => redirect.calendly_event_id); // Get all event IDs
         let events = await getEventsByRedirectIDs(eventIDs); // Get all events by event IDs
-        const fetchUsername = async (userId: string) => {
-            // Replace this with your actual API call or function to fetch the username
-            const response = await clerkClient.users.getUser(userId)
-            const firstName = response.firstName
-            const lastName = response.lastName
-            const email = response.emailAddresses
-            return {
-                firstName: firstName,
-                lastName: lastName,
-                email: email
-            };
-        };
+        events = events.map((event, index) => { 
+            console.log(event.event_data.payload.tracking.utm_source)
+            return { 
+                ...event
         
-        const users = await Promise.all(events.map(event => event.account_id ? fetchUsername(event.account_id) : ''));
-        events = events.map((event, index) => ({
-            ...event,
-            username: users[index]
-        }));
+            }
+        });
+
+        console.log("Events: ", events)
 
         return (
             <div className="bg-[#16113A] p-2 sm:p-8 flex flex-col">
@@ -194,7 +185,7 @@ export default async function Page() {
                                     <Suspense fallback={
                                         <Loading/>
                                     }>
-                                        <UserEvents redirects={redirects}/>
+                                        <UserEvents events={events}/>
                                     </Suspense>
                                 </div>
                             </div>

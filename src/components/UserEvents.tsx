@@ -64,7 +64,7 @@ export const UserEvents: React.FC<UserEventProps> = ({ events }) => {
                                     </td>
                                     <td className='p-2 border-b border-gray-400 text-xs'>{duration}</td>
                                     <td className='p-2 border-b border-gray-400 text-xs'>{event.name}</td>
-                                    <td className='p-2 border-b border-gray-400 text-xs'>{event.utmSource}</td>
+                                    <td className='p-2 border-b border-gray-400 text-xs'>{event.event_data.payload.tracking.utm_source}</td>
                                 </tr>
                             );
                         })

@@ -23,7 +23,7 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 export interface CalendlyEvents {
   id: Generated<number>;
   account_id: string | null;
-  event_data: Json;
+  event_data: any;
   event_timestamp: Generated<Timestamp | null>;
   uri: string;
   name: string;
@@ -71,10 +71,22 @@ export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp' | '
 
 export async function createRedirectEntry(redirect: InsertableRedirect){
     const db = getDbInstance();
-    return await db.insertInto('redirects')
-        .values(redirect)
-        .returning('id')
-        .executeTakeFirstOrThrow();
+    try {
+        return await db.insertInto('redirects')
+            .values(redirect)
+            .returning('id')
+            .executeTakeFirstOrThrow();
+    } catch (error) {
+        // Check if error is a unique constraint violation
+        if (error instanceof Error) {
+            // Check if error is a unique constraint violation
+            if ((error as any).code === '23505') {  // Using 'as any' here to access the 'code' property
+                console.error('Duplicate entry detected:', redirect);
+                throw new Error('Duplicate entry not allowed');
+            }
+        }
+        throw error;  // Re-throw other errors
+    }
 }
 type InsertableCalendlyEvent = Omit<CalendlyEvents, 'id' | 'event_timestamp'>;
 
@@ -122,12 +134,13 @@ export async function getRedirectsByEmail(email: string): Promise<Redirects[]> {
         .execute();
     }
 
-export async function getAllRedirects(): Promise<Redirects[]> {
-    const db = getDbInstance();
-    return await db.selectFrom('redirects')
-        .selectAll()
-        .execute();
-}
+    export async function getAllRedirects(): Promise<Redirects[]> {
+        const db = getDbInstance();
+        return await db.selectFrom('redirects')
+            .distinctOn('redirect_timestamp', 'account_id')
+            .selectAll()
+            .execute();
+    }
 
 export async function getEventsByRedirectIDs(ids: (number | null)[]): Promise<CalendlyEvents[]>{
     const db = getDbInstance();
@@ -139,9 +152,10 @@ export async function getEventsByRedirectIDs(ids: (number | null)[]): Promise<Ca
         return [];
     }
     return await db.selectFrom('redirects')
+        .distinctOn('start_time', 'account_id')
         .innerJoin('calendly_events', 'calendly_events.id', 'redirects.calendly_event_id')
         .where('redirects.calendly_event_id', 'in', ids)
-        .select(['calendly_events.id', 'calendly_events.uri', 'calendly_events.name', 'calendly_events.status', 'calendly_events.start_time', 'calendly_events.end_time', 'calendly_events.event_type'])
+        .selectAll()
         .execute();
 }
   
