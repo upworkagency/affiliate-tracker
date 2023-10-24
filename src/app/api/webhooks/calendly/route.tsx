@@ -25,7 +25,7 @@ export async function POST(req: Request) {
         const type = payload.eventType || 'defaultType'; // Replace 'defaultType' with an appropriate value
 
         const calendlyEventId = await createCalendlyEvent({
-            account_id: null, // or your account_id
+            account_id: utmSource, // or your account_id
             uri: uri,
             name: name,
             status: status,
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
             email: email,
             rescheduleUrl: rescheduleUrl,
             cancelUrl: cancelUrl,
-            utmSource: utmSource
+            utmSource: null
         });
     
         // Use the returned calendlyEventId to update thea Redirects table
