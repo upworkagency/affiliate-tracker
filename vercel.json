@@ -4,13 +4,6 @@
         "DATABASE_URL": "@database_url",
         "BEARER_TOKEN": "@bearer_token"
       }
-    },
-    "functions": {
-      "app/api/webhooks/calendly/route.ts": {
-          "runtime": "nodejs18.x",
-          "memory": 3008,
-          "maxDuration": 10
-      }
-  }
+    }
 }
   
