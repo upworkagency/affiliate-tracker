@@ -1,26 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createCalendlyEvent, updateRedirectWithCalendlyEventId } from '../../../../lib/database'; // Import from your actual database module
-export const runtime = 'edge'; // 'nodejs' is the default
-export const dynamic = 'force-dynamic';
+
 import { clerkClient } from '@clerk/nextjs';
 import { Client, TextChannel } from 'discord.js';
 
 async function sendMessageToDiscord(message: string) {
-    const client = new Client({ intents: [] });
-    await client.login(process.env.BOT_TOKEN);
-    try {
-        const channel = await client.channels.fetch(process.env.CHANNEL_ID ?? "1166762875927408821");
-        if (channel instanceof TextChannel) {
-            await channel.send(message);
-          } else {
-            console.error('Channel is not a text channel');
-          }
-      } catch (error) {
-        console.error('Error fetching the channel:', error);
-      } finally {
-        client.destroy();
-      }
+  const client = new Client({ intents: [] });
+  await client.login(process.env.BOT_TOKEN);
+  try {
+    const channel = await client.channels.fetch(process.env.CHANNEL_ID ?? '');
+    if (channel instanceof TextChannel) {
+      await channel.send(message);
+    } else {
+      console.error('Channel is not a text channel');
+    }
+  } catch (error) {
+    console.error('Error fetching the channel:', error);
+  } finally {
+    client.destroy();
   }
+}
 export async function POST(req: Request) {
     // Assuming that the POST data is JSON-encoded
     const body = await req.json()
