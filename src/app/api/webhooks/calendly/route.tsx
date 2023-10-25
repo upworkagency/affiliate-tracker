@@ -49,7 +49,7 @@ export async function POST(req: Request) {
             minute: '2-digit',
         }).replace(/\u2009/g, ' ').replace(' ', ' ')
 
-        await sendMessageToDiscord(`New meeting scheduled on ${formattedStartTime} for closer: ${name}`);
+        await sendMessageToDiscord(`New meeting scheduled on ${formattedStartTime} for closer: ${closerFirstName} ${closerLastName}`);
 
         const calendlyEventId = await createCalendlyEvent({
             account_id: utmSource, // or your account_id
