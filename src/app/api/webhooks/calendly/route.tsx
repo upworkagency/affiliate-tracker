@@ -5,8 +5,8 @@ import { clerkClient } from '@clerk/nextjs';
 import { Client, TextChannel } from 'discord.js';
 
 async function sendMessageToDiscord(message: string) {
-  const client = new Client({ intents: [] });
-  await client.login(process.env.BOT_TOKEN);
+    const client = new Client({ intents: ['Guilds', 'GuildMessages'] });
+    await client.login(process.env.BOT_TOKEN);
   try {
     const channel = await client.channels.fetch(process.env.CHANNEL_ID ?? '');
     if (channel instanceof TextChannel) {
