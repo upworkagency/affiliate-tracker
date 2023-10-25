@@ -9,7 +9,7 @@ import LinkGenerator from '../../components/linkGenerator';
 import { currentUser, SignIn, useOrganization } from "@clerk/nextjs";
 import { getRedirectsById, getAllRedirects, getEventsByRedirectIDs } from '../../lib/database'
 import { Suspense } from 'react';
-import { Redirects } from 'k../../lib/database'
+import { Redirects } from '../../lib/database'
 import Loading from './loading';
 import { clerkClient } from '@clerk/nextjs';
 
@@ -81,15 +81,6 @@ export default async function Page() {
         )
         const eventIDs = allRedirects.map(redirect => redirect.calendly_event_id); // Get all event IDs
         let events = await getEventsByRedirectIDs(eventIDs); // Get all events by event IDs
-        events = events.map((event, index) => { 
-            console.log(event.event_data.payload.tracking.utm_source)
-            return { 
-                ...event
-        
-            }
-        });
-
-        console.log("Events: ", events)
 
         return (
             <div className="bg-[#16113A] p-2 sm:p-8 flex flex-col">
@@ -172,6 +163,8 @@ export default async function Page() {
         );
         const counts = generateCounts(redirects);
         const scheduled = redirects.filter((event)=> event.calendly_event_id !== null)
+        const eventIDs = redirects.map(redirect => redirect.calendly_event_id);
+        let events = await getEventsByRedirectIDs(eventIDs); 
         return (
             <div className="bg-[#16113A] p-2 sm:p-8 flex flex-col">
             <div className='flex flex-col xl:flex-row w-full items-center'>

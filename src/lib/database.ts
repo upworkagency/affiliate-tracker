@@ -35,6 +35,7 @@ export interface CalendlyEvents {
   rescheduleUrl: string | null;
   utmSource: string | null;
   cancelUrl: string | null;
+  closer: string | null;
 }
 
 export interface Redirects {
@@ -45,6 +46,8 @@ export interface Redirects {
   booked_timestamp: Timestamp | null;
   email: string | null;
   calendly_event_id: number | null;
+  first_name: string | null;
+  last_name: string | null;
 }
 
 export interface DB {
@@ -67,7 +70,7 @@ export function getDbInstance() {
     return dbInstance;
 }
 
-export type InsertableRedirect = Omit<Redirects, 'id' | 'redirect_timestamp' | 'booked_timestamp' | 'email'>;
+export type InsertableRedirect = Omit<Redirects, 'id' | 'booked_timestamp' | 'redirect_timestamp' | 'email'>;
 
 export async function createRedirectEntry(redirect: InsertableRedirect){
     const db = getDbInstance();

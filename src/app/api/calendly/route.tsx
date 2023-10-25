@@ -1,9 +1,13 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { createRedirectEntry, InsertableRedirect } from '../../../lib/database';
 import { getSchedulingUrl } from '../../../lib/calendly'
+import { clerkClient } from '@clerk/nextjs';
+
+
 export const runtime = 'edge' // 'nodejs' is the default
 
 export async function GET(req: NextRequest) {
+
   const params = req.nextUrl.searchParams
 
   const platform = params.get('platform');
@@ -18,13 +22,16 @@ export async function GET(req: NextRequest) {
   if (!platform || !accountID || !eventID) {
     return NextResponse.json({ error: 'Platform, accountID, and eventID are required.' }, { status: 400 });
   }
+  const user = await clerkClient.users.getUser(accountID);
 
   let redirect;
   try {
     const redirectData: InsertableRedirect = {
       account_id: accountID,
       platform: platform,
-      calendly_event_id: null
+      calendly_event_id: null,
+      first_name: user.firstName,
+      last_name: user.lastName,
     }
     redirect = await createRedirectEntry(redirectData);
   } catch (error) {
